@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  font-family: 'Inter Tight', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
