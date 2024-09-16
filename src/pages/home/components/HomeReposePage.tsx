@@ -12,20 +12,8 @@ const HomeReposePage = () => {
     <div className="relative z-10 text-white">
       <BackgroundEffect unnotted={unnotted} width="w-14" />
         <DateTimeDisplay fontSize="text-8xl" />        
-      <ButtonLink to="/tickets" fontSize="text-lg" fontFamily="font-sans">
+        <ButtonLink to="/menu" fontSize="text-lg" fontFamily="font-sans">
         PRESIONE PARA EMPEZAR
-      </ButtonLink>
-      <ButtonLink
-        to="/about"
-        fontSize="text-lg"
-        fontFamily="font-sans"
-        rounded="rounded-full"
-        textColor="text-white"
-        borderColor="border-black"
-        borderVisible={false}
-        backgroundColor="bg-red-500"
-      >
-        Ir a Acerca de
       </ButtonLink>
     </div>
   );
