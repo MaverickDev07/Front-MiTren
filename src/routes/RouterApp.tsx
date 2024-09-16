@@ -3,7 +3,7 @@ import RouterList from "./RouterList"
 import DecorationLayout from "@/layouts/DecorationLayout"
 
 const RouterApp = () => (
-  <BrowserRouter>
+  <BrowserRouter> 
     <DecorationLayout>
       <RouterList />
     </DecorationLayout>

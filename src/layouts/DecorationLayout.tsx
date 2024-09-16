@@ -1,15 +1,11 @@
-import BackgroundEffect from "@/components/BackgroundEffect"
 import { ReactNode } from "react"
-import { useLocation } from "react-router"
+
 
 const DecorationLayout = ({ children }: DecorationLayoutProps) => {
-  const location = useLocation()
-  const path = location.pathname
-  const unnotted = path !== '/'
 
   return (
-    <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover">
-      <BackgroundEffect unnotted={unnotted} />
+    <div className="relative w-full min-h-screen bg-mitren-primary bg-opacity-890">
+      <div className="absolute inset-0 bg-train bg-cover opacity-50"></div>
       {children}
     </div>
   )
@@ -20,3 +16,22 @@ type DecorationLayoutProps = {
 }
 
 export default DecorationLayout
+
+/* examinar como areglar con esto para crear dos layouts uno de reposo y otro de la aplicacion
+import { ReactNode } from "react"
+
+const DecorationLayout = ({ children }: DecorationLayoutProps) => {
+
+  return (
+    <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover">
+      {children}
+    </div>
+  )
+}
+
+type DecorationLayoutProps = {
+  children: ReactNode
+}
+
+export default DecorationLayout
+*/ 

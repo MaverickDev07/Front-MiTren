@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-const DateTimeDisplay: React.FC = () => {
-  const [dateTime, setDateTime] = useState<string>('');
+type DateTimeDisplayProps = {
+  fontSize?: string; // Prop para controlar el tamaño de la tipografía
+};
+
+const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ fontSize = "text-4xl" }) => {
+  const [time, setTime] = useState<string>('');
+  const [date, setDate] = useState<string>('');
 
   const updateDateTime = () => {
     const now = new Date();
@@ -16,7 +21,8 @@ const DateTimeDisplay: React.FC = () => {
       hour: '2-digit',
       minute: '2-digit',
     });
-    setDateTime(`${formattedTime} ${formattedDate}`);
+    setTime(formattedTime);
+    setDate(formattedDate);
   };
 
   useEffect(() => {
@@ -25,7 +31,12 @@ const DateTimeDisplay: React.FC = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  return <div>{dateTime}</div>
+  return (
+    <div className="flex flex-col items-center h-screen p-8 text-white"> 
+      <div className={`${fontSize} font-bold mb-2`}>{time}</div>
+      <div className="text-lg">{date}</div>
+    </div>
+  );
 };
 
-export default DateTimeDisplay
+export default DateTimeDisplay;

@@ -1,22 +1,32 @@
 import DateTimeDisplay from "@/components/DateTimeDisplay.tsx";
-import Train from "@/assets/brand/train.svg";
+import BackgroundEffect from "@/components/BackgroundEffect"
+import { useLocation } from "react-router"
+import ButtonLink from "@/components/ButtonLink";
+
 const HomeReposePage = () => {
+  const location = useLocation()
+  const path = location.pathname
+  const unnotted = path !== '/'
+
   return (
-    <div
-      className="w-full min-h-screen flex flex-col justify-between bg-gray-800 p-4"
-      style={{
-        backgroundImage:`url(${Train})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div className="flex-grow flex flex-col justify-center items-center">
-        <DateTimeDisplay />
-      </div>
-      <div className="text-2xl font-semibold text-center text-slate-50 mb-4">
-        <p>PRESIONE PARA EMPEZAR</p>
-      </div>
+    <div className="relative z-10 text-white">
+      <BackgroundEffect unnotted={unnotted} width="w-14" />
+        <DateTimeDisplay fontSize="text-8xl" />        
+      <ButtonLink to="/tickets" fontSize="text-lg" fontFamily="font-sans">
+        PRESIONE PARA EMPEZAR
+      </ButtonLink>
+      <ButtonLink
+        to="/about"
+        fontSize="text-lg"
+        fontFamily="font-sans"
+        rounded="rounded-full"
+        textColor="text-white"
+        borderColor="border-black"
+        borderVisible={false}
+        backgroundColor="bg-red-500"
+      >
+        Ir a Acerca de
+      </ButtonLink>
     </div>
   );
 }

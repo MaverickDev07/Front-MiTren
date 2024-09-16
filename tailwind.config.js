@@ -10,6 +10,7 @@ export default {
         doodle: "url('/images/backgrounds/doodle.svg')",
         "pattern-left": "url('/images/brand/pattern-left.webp')",
         "pattern-right": "url('/images/brand/pattern-right.webp')",
+        "train": "url('/images/backgrounds/train.svg')",
       },
       colors: {
         "mitren-primary": "#004195"
