@@ -7,13 +7,13 @@ const ButtonLink = ({
   to = "/",
   className = "",
   type = "button",
-  fontSize = "text-2xl", // Prop para tamaño de letra
-  fontFamily = "font-interTight", // Prop para tipografía
-  rounded = "rounded-[44px]", // Prop para redondeo
-  textColor = "text-black", // Prop para color de letra
-  borderColor = "border-black", // Prop para color de borde
-  borderVisible = true, // Prop para visibilidad del borde
-  backgroundColor = "bg-white", // Prop para color de fondo
+  fontSize = "text-2xl",
+  fontFamily = "font-interTight",
+  rounded = "rounded-[44px]", 
+  textColor = "text-black", 
+  borderColor = "border-black",
+  borderVisible = true,
+  backgroundColor = "bg-white", 
 }: ButtonLinkProps) => {
   return (
     <NavLink to={to} className="inline-flex relative">
@@ -23,14 +23,14 @@ const ButtonLink = ({
           "relative z-[1]",
           "inline-flex justify-center items-center gap-4 p-8",
           "w-full",
-          fontSize, // Usar la prop fontSize
+          fontSize,
           "uppercase",
-          fontFamily, // Usar la prop fontFamily
-          textColor, // Usar la prop textColor
+          fontFamily,
+          textColor, 
           "font-bold select-none",
-          rounded, // Usar la prop rounded
-          borderVisible ? `${borderColor} border-[10px]` : "border-0", // Condicional para el borde
-          backgroundColor, // Usar la prop backgroundColor
+          rounded,
+          borderVisible ? `${borderColor} border-[10px]` : "border-0",
+          backgroundColor,
           "active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85",
           "h-[82px]",
           className
@@ -48,13 +48,13 @@ type ButtonLinkProps = {
   to?: string
   className?: string
   type?: "submit" | "button" | "reset"
-  fontSize?: string // Prop para tamaño de letra
-  fontFamily?: string // Prop para tipografía
-  rounded?: string // Prop para redondeo
-  textColor?: string // Prop para color de letra
-  borderColor?: string // Prop para color de borde
-  borderVisible?: boolean // Prop para visibilidad del borde
-  backgroundColor?: string // Prop para color de fondo
+  fontSize?: string
+  fontFamily?: string 
+  rounded?: string 
+  textColor?: string 
+  borderColor?: string
+  borderVisible?: boolean 
+  backgroundColor?: string
 }
 
 export default ButtonLink

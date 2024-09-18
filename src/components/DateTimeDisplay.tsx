@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 type DateTimeDisplayProps = {
-  fontSize?: string; // Prop para controlar el tamaño de la tipografía
+  fontSize?: string;
 };
 
 const DateTimeDisplay: React.FC<DateTimeDisplayProps> = ({ fontSize = "text-4xl" }) => {
