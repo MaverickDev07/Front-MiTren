@@ -13,7 +13,7 @@ const HomeReposePage = () => {
       <BackgroundEffect unnotted={unnotted} />
       <div>
         <DateTimeDisplay fontSize="text-8xl" />       
-        <ButtonHome to="/Menu" className="hover:text-white">
+        <ButtonHome to="/" className="hover:text-white">
           PRESIONE PARA EMPEZAR
         </ButtonHome>
       </div>
