@@ -8,7 +8,7 @@ import DecorationLayout from "@/layouts/DecorationLayout";
 const HomeReposePage = lazy(() => import("@/pages/home/Repose/HomeReposePage"));
 const HomeMenu = lazy(() => import("@/pages/home/menu/HomeMenu"));
 const LinePage = lazy(() => import("@/pages/tickets/line/LinePage"))
-const TicketsPage = lazy(() => import("@/pages/tickets/TicketsPage"))
+const TicketsPage = lazy(() => import("@/pages/tickets/tickets-number/TicketNumberPage"))
 const DestinationPage = lazy(() => import("@/pages/tickets/Destination/DestinationPage"))
 
 
@@ -31,7 +31,7 @@ const RouterList = () => {
           <SuspenseComponent><LinePage /></SuspenseComponent>
         </DecorationLayout>
       } />
-      <Route path="/destination/*" element={
+      <Route path="/linea/destination/*" element={
         <DecorationLayout>
           <SuspenseComponent><DestinationPage /></SuspenseComponent>
         </DecorationLayout>

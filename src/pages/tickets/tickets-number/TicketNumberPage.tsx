@@ -1,29 +1,34 @@
-import BackgroundEffect from "@/components/BackgroundEffect"
-import TicketResume from "../components/TicketResume"
-import TicketNumberItem from "../../tickets/components/TicketNumberItem"
-import { useLocation } from "react-router"
+import BackgroundEffect from "@/components/BackgroundEffect";
+import TicketResume from "../components/TicketResume";
+import TicketNumberItem from "../../tickets/components/TicketNumberItem";
+import { useLocation } from "react-router";
+import NavigatorTop from "@/components/NavigatorTop";
 
-const TicketNumberPage  = () => {
-  const location = useLocation()
-  const path = location.pathname
-  const unnotted = path !== '/'
+const TicketNumberPage = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const unnotted = path !== '/';
+
   return (
-    <>
-    <BackgroundEffect unnotted={unnotted} />
-      <div className="flex justify-between">
-          <div className="w-[600px] flex-shrink-0">
-            <div className="w-full flex flex-col gap-4 lg:w-[508px]">
-              <TicketNumberItem />
-              <TicketNumberItem />
-              <TicketNumberItem />
-            </div>
+    <div className="container flex flex-col gap-6 mx-auto pt-8 px-4">
+      <div className="w-full lg:px-20 xl:px-[101px]">
+        <NavigatorTop />
+      </div>
+      <div className="w-full lg:px-20 xl:px-[101px]">
+        <BackgroundEffect unnotted={unnotted} />
+        <div className="flex flex-col lg:flex-row justify-between">
+          <div className="flex flex-col w-full lg:w-[508px] gap-4 flex-shrink-0">
+            <TicketNumberItem />
+            <TicketNumberItem />
+            <TicketNumberItem />
           </div>
-          <div className="w-full">
+          <div className="w-full mt-4 lg:mt-0">
             <TicketResume />
           </div>
+        </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export default TicketNumberPage
+export default TicketNumberPage;

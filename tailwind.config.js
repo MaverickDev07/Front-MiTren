@@ -6,6 +6,14 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
       backgroundImage: {
         doodle: "url('/images/backgrounds/doodle.svg')",
         "pattern-left": "url('/images/brand/pattern-left.webp')",
@@ -18,6 +26,27 @@ export default {
       fontFamily: {
         interTight: '"Inter Tight", sans-serif',
         Inconsolata: '"Inconsolata", sans-serif',
+      },
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['1rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
+        '5xl': ['3rem', { lineHeight: '1' }],
+      },
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '1rem',
+          sm: '2rem',
+          lg: '4rem',
+          xl: '5rem',
+          '2xl': '6rem',
+        },
       },
       animation: {
         "unnotted-decoration-left": "unnotted-decoration-left-animation 0.3s ease forwards",
@@ -68,25 +97,9 @@ export default {
         },
       },
     },
-    container: {
-      screens: {
-        sm: {
-          min: "640px",
-        },
-        md: {
-          min: "768px",
-        },
-        lg: {
-          min: "1024px",
-        },
-        xl: {
-          min: "1280px",
-        },
-        "2xl": {
-          min: "1280px",
-        },
-      },
-    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
+
