@@ -1,25 +1,38 @@
-import { ReactNode } from "react"
-import cn from "classnames"
-import { NavLink } from "react-router-dom"
+import { ReactNode } from "react";
+import cn from "classnames";
+import { NavLink } from "react-router-dom";
 
 const ButtonLink = ({
   children,
   to = "/",
   className = "",
-  type = "button"
+  type = "button",
+  fontSize = "text-2xl",
+  fontFamily = "font-interTight",
+  rounded = "rounded-[44px]", 
+  textColor = "text-black", 
+  borderColor = "border-black",
+  borderVisible = true,
+  backgroundColor = "bg-white", 
 }: ButtonLinkProps) => {
   return (
-    <NavLink to={to} className="inline-flex relative">
+    <NavLink to={to} className="inline-flex relative w-full">
       <button
         type={type}
         className={cn(
           "relative z-[1]",
-          "inline-flex justify-center items-center gap-4 p-8",
+          "inline-flex justify-center items-center gap-4 p-4 sm:p-6 lg:p-8",
           "w-full",
-          "text-2xl uppercase font-interTight font-bold select-none",
-          "rounded-[44px] box-border border-black border-[10px]",
+          fontSize,
+          "uppercase",
+          fontFamily,
+          textColor, 
+          "font-bold select-none",
+          rounded,
+          borderVisible ? `${borderColor} border-[10px]` : "border-0",
+          backgroundColor,
           "active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85",
-          "bg-white h-[82px]",
+          "h-[82px]",
           className
         )}
       >
@@ -27,14 +40,21 @@ const ButtonLink = ({
       </button>
       <span className="absolute w-full h-full bg-black z-0 rounded-[44px] top-2"></span>
     </NavLink>
-  )
+  );
 }
 
 type ButtonLinkProps = {
-  children?: ReactNode
-  to?: string
-  className?: string
-  type?: "submit" | "button" | "reset"
+  children?: ReactNode;
+  to?: string;
+  className?: string;
+  type?: "submit" | "button" | "reset";
+  fontSize?: string;
+  fontFamily?: string; 
+  rounded?: string; 
+  textColor?: string; 
+  borderColor?: string;
+  borderVisible?: boolean; 
+  backgroundColor?: string;
 }
 
-export default ButtonLink
+export default ButtonLink;

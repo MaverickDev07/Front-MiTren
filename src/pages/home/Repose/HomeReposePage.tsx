@@ -1,21 +1,21 @@
-import DateTimeDisplay from "@/components/DateTimeDisplay.tsx";
-import Train from "@/assets/brand/train.svg";
+import DateTimeDisplay from "@/components/DateTimeDisplay";
+import BackgroundEffect from "@/components/BackgroundEffect";
+import { useLocation } from "react-router";
+import ButtonHome from "@/components/ButtonHome";
+
 const HomeReposePage = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const unnotted = path !== '/';
+
   return (
-    <div
-      className="w-full min-h-screen flex flex-col justify-between bg-gray-800 p-4"
-      style={{
-        backgroundImage:`url(${Train})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div className="flex-grow flex flex-col justify-center items-center">
-        <DateTimeDisplay />
-      </div>
-      <div className="text-2xl font-semibold text-center text-slate-50 mb-4">
-        <p>PRESIONE PARA EMPEZAR</p>
+    <div className="relative z-10 text-white p-4">
+      <BackgroundEffect unnotted={unnotted} />
+      <div className="flex flex-col items-center">
+        <DateTimeDisplay fontSize="text-4xl sm:text-8xl" />
+        <ButtonHome to="/" className="hover:text-white mt-4 text-lg sm:text-xl">
+          PRESIONE PARA EMPEZAR
+        </ButtonHome>
       </div>
     </div>
   );
