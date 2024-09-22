@@ -1,106 +1,108 @@
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BackgroundEffect from "@/components/BackgroundEffect";
-import { useLocation, useNavigate } from "react-router";
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
-import Base64Image from "../components/Base64"; 
+
+// Base URL de la API de VeriPagos
+const API_URL = 'https://veripagos.com/api';
+const USERNAME = 'mitren'; // Nombre de usuario
+const PASSWORD = '-+1eFHxrU*'; // Contraseña
+const SECRET_KEY = 'd45b8d2d-9914-49cc-b337-2888cebf3d3e'; // Clave secreta de la API
 
 const PaymentQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
   const unnotted = path !== '/';
-  
   const { ticketCount } = location.state || {};
-  const price = ticketCount * 1; // Cambia 1 por el precio real si es necesario
   const [qr, setQr] = useState(null);
   const [movimientoId, setMovimientoId] = useState(null);
   const [error, setError] = useState('');
-  const [isChecking, setIsChecking] = useState(false); // Para controlar el estado de verificación
+  const [loading, setLoading] = useState(true); // Indicador de carga
+  const [qrGenerated, setQrGenerated] = useState(false);
+  const totalAmount = ticketCount; // Suponiendo que el ticketCount es el monto total
+  const vigencia = '0/00:15'; // Vigencia del QR
 
-  // Credenciales estáticas
-  const username = 'mitren';
-  const password = '-+1eFHxrU*';
-  const totalAmount = price;
-  const vigencia = '0/00:00';
+  // Función para generar el código QR
+  const generateQR = useCallback(async () => {
+    const credentials = btoa(`${USERNAME}:${PASSWORD}`);
+    try {
+      const response = await fetch(`${API_URL}/bcp/generar-qr`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${credentials}`,
+        },
+        body: JSON.stringify({
+          secret_key: SECRET_KEY,
+          monto: totalAmount,
+          vigencia: vigencia,
+          uso_unico: false,
+          detalle: 'Compra de ticket de tren',
+        }),
+      });
 
-  useEffect(() => {
-    const generateQR = async () => {
-      const secretKey = 'd45b8d2d-9914-49cc-b337-2888cebf3d3e';
-      const credentials = btoa(`${username}:${password}`);
-
-      try {
-        const response = await fetch(`https://veripagos.com/api/bcp/generar-qr?secret_key=${secretKey}&monto=${totalAmount}&vigencia=${vigencia}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${credentials}`,
-          },
-        });
-
-        const data = await response.json();
-
-        if (data.Codigo === 0) {
-          setQr(`data:image/png;base64,${data.Data.qr}`);
-          setMovimientoId(data.Data.movimiento_id); // Almacena el movimiento_id
-          checkPaymentStatus(data.Data.movimiento_id); // Verifica el estado del pago
-        } else {
-          setError(data.Mensaje);
-        }
-      } catch (err) {
-        setError("Ocurrió un error en la conexión.");
-        console.error("Error en la solicitud:", err);
+      const data = await response.json();
+      if (data.Codigo === 0) {
+        setQr(`data:image/png;base64,${data.Data.qr}`);
+        setMovimientoId(data.Data.movimiento_id);
+      } else {
+        setError(data.Mensaje);
       }
-    };
-
-    if (ticketCount > 0) {
-      generateQR();
+    } catch (err) {
+      setError("Ocurrió un error en la conexión.");
+      console.error("Error en la solicitud:", err);
+    } finally {
+      setLoading(false);
     }
-  }, [ticketCount]);
+  }, [totalAmount]); // Dependencia de totalAmount
 
-  const checkPaymentStatus = async (movimientoId) => {
-    setIsChecking(true);
-    const secretKey = 'd45b8d2d-9914-49cc-b337-2888cebf3d3e';
-    const credentials = btoa(`${username}:${password}`);
-    
-    const intervalId = setInterval(async () => {
-      try {
-        const response = await fetch(`https://veripagos.com/api/bcp/verificar-estado-qr`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${credentials}`,
-          },
-          body: JSON.stringify({
-            secret_key: secretKey,
-            movimiento_id: String(movimientoId) 
-          }),
-        });
+  // Función para verificar el estado del pago
+  const checkPaymentStatus = useCallback(async () => {
+    if (!movimientoId) return;
 
-        const data = await response.json();
-        console.log("Respuesta de verificación:", data); // Log de respuesta
-        
-        if (data.Codigo === 0) {
-          clearInterval(intervalId);
+    const credentials = btoa(`${USERNAME}:${PASSWORD}`);
+    try {
+      const response = await fetch(`${API_URL}/bcp/verificar-estado-qr`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${credentials}`,
+        },
+        body: JSON.stringify({
+          secret_key: SECRET_KEY,
+          movimiento_id: String(movimientoId),
+        }),
+      });
 
-          // Verifica el estado de la transacción
-          if (data.Data.estado === 'Completado') {
-            navigate('/verificationQR'); // Navegar a la pantalla de éxito
-          } else {
-            navigate('/pago-fallido'); // Manejar otros estados si es necesario
-          }
-        } else {
-          setError(data.Mensaje);
+      const data = await response.json();
+      if (data.Codigo === 0) {
+        if (data.Data.estado === 'Completado') {
+          navigate('/verificationQR'); // Navega a la pantalla de transacción exitosa
         }
-      } catch (err) {
-        clearInterval(intervalId); 
-        setError("Error al verificar el estado del pago.");
-        console.error("Error en la verificación:", err);
+      } else {
+        setError(data.Mensaje);
       }
-    }, 30000); // Verifica cada 30 segundos
-    
+    } catch (err) {
+      setError('Error al verificar el estado del pago: ' + err.message);
+      console.error('Error al verificar el estado del pago:', err);
+    }
+  }, [movimientoId, navigate]); // Dependencias
+
+  // Efecto para cargar el QR al montar el componente
+  useEffect(() => {
+    if (ticketCount > 0 && !qrGenerated) {
+      generateQR(); // Genera el QR solo una vez
+      setQrGenerated(true); // Establecemos qrGenerated en true después de generar el QR
+    }
+  
+    // Configuramos el intervalo para verificar el estado del pago cada 10 segundos
+    const intervalId = setInterval(checkPaymentStatus, 10000); // 10000 ms = 10 segundos
+  
+    // Limpiamos el intervalo al desmontar el componente
     return () => clearInterval(intervalId);
-  };
+  }, [ticketCount, generateQR, checkPaymentStatus, qrGenerated]);
 
   return (
     <div className="container flex flex-col gap-6 mx-auto pt-8 px-4 min-h-screen justify-center items-center">
@@ -109,30 +111,19 @@ const PaymentQR = () => {
       </div>
       <div className="w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
         <BackgroundEffect unnotted={unnotted} />
-        {ticketCount !== undefined ? (
-          <div className="w-full mt-4 lg:mt-0 flex flex-col items-center">
-            <h2 className="font-bold text-3xl sm:text-4xl text-white uppercase mb-8">Lectura QR {totalAmount} Bs</h2>
-            <div className="w-full h-full flex flex-col bg-white rounded-[44px] p-8 items-center">
-              {qr ? (
-                <div className="flex flex-col items-center">
-                  <h3>Código QR Generado:</h3>
-                  <Base64Image base64={qr} alt="Código QR" />
-                </div>
-              ) : (
-                <p>Generando código QR...</p>
-              )}
-            </div>
-          </div>
+        <h2 className="font-bold text-3xl sm:text-4xl text-white uppercase mb-8">Escanea el código QR para pagar</h2>
+        {loading ? (
+          <p>Cargando QR...</p>
         ) : (
-          <p>No se recibieron datos sobre la cantidad de tickets.</p>
+          <img src={qr} alt="Código QR" />
         )}
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <ButtonLink to="/ticket-payment" className="flex items-center">
+        <ButtonLink to="/linea/destination/tickets/" className="flex items-center">
           <span className="text-sm sm:text-base">Cancelar</span>
         </ButtonLink>
       </div>
     </div>
   );
-}
+};
 
 export default PaymentQR;
