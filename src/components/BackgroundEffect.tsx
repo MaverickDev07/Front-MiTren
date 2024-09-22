@@ -26,3 +26,4 @@ export default BackgroundEffect;
 
 export const BackgroundEffectMemo = memo(BackgroundEffect);
 
+

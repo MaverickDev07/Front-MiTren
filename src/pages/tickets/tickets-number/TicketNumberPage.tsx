@@ -19,8 +19,6 @@ const TicketNumberPage = () => {
         <div className="flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col w-full lg:w-[508px] gap-4 flex-shrink-0">
             <TicketNumberItem />
-            <TicketNumberItem />
-            <TicketNumberItem />
           </div>
           <div className="w-full mt-4 lg:mt-0">
             <TicketResume />

@@ -21,7 +21,7 @@ const RouterList = () => {
           <SuspenseComponent><HomeMenu /></SuspenseComponent>
         </DecorationLayout>
       } />
-      <Route path="/tickets/*" element={
+      <Route path="/linea/destination/tickets/*" element={
         <DecorationLayout>
           <SuspenseComponent><TicketsPage /></SuspenseComponent>
         </DecorationLayout>
