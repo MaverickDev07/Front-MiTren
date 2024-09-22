@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackgroundEffect from "@/components/BackgroundEffect";
 import { useLocation, useNavigate } from "react-router";
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
-import Base64Image from "../components/Base64"; // Asegúrate de la ruta correcta
+import Base64Image from "../components/Base64"; 
 
 const PaymentQR = () => {
   const location = useLocation();
@@ -19,10 +19,10 @@ const PaymentQR = () => {
   const [isChecking, setIsChecking] = useState(false); // Para controlar el estado de verificación
 
   // Credenciales estáticas
-  const username = 'mitren'; // Reemplaza con tu username
-  const password = '-+1eFHxrU*'; // Reemplaza con tu password
-  const totalAmount = price; // Monto total a pagar
-  const vigencia = '0/00:00'; // Ajusta según sea necesario
+  const username = 'mitren';
+  const password = '-+1eFHxrU*';
+  const totalAmount = price;
+  const vigencia = '0/00:00';
 
   useEffect(() => {
     const generateQR = async () => {
@@ -66,7 +66,7 @@ const PaymentQR = () => {
     const intervalId = setInterval(async () => {
       try {
         const response = await fetch(`https://veripagos.com/api/bcp/verificar-estado-qr`, {
-          method: 'POST', // Cambiado a POST
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Basic ${credentials}`,
@@ -90,7 +90,7 @@ const PaymentQR = () => {
             navigate('/pago-fallido'); // Manejar otros estados si es necesario
           }
         } else {
-          setError(data.Mensaje); // Manejo de mensaje de error
+          setError(data.Mensaje);
         }
       } catch (err) {
         clearInterval(intervalId); 
