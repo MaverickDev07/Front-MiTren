@@ -1,10 +1,18 @@
-import { ReactNode } from 'react'
-import cn from 'classnames'
+import { ReactNode } from 'react';
+import cn from 'classnames';
+
+type ButtonBaseProps = {
+  children?: ReactNode;
+  className?: string;
+  type?: "submit" | "button" | "reset";
+  onClick?: () => void;
+};
 
 const ButtonBase = ({
   children,
   className = "",
-  type = "button"
+  type = "button",
+  onClick
 }: ButtonBaseProps) => {
   return (
     <div className="inline-flex relative">
@@ -20,18 +28,13 @@ const ButtonBase = ({
           "bg-white h-[82px]",
           className
         )}
+        onClick={onClick}
       >
         {children}
       </button>
       <span className="absolute w-full h-[82px] bg-black z-0 rounded-[44px] top-2"></span>
     </div>
-  )
-}
+  );
+};
 
-type ButtonBaseProps = {
-  children?: ReactNode
-  className?: string
-  type?: "submit" | "button" | "reset"
-}
-
-export default ButtonBase
+export default ButtonBase;

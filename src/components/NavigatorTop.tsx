@@ -11,7 +11,7 @@ const NavigatorTop = () => {
           <span className="text-sm sm:text-base">Menu</span>
         </ButtonLink>
         <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">
-          Comprar Ticket - Línea
+          Comprar Ticket
         </h2>
       </div>
       <img src={MiTrenLogo} alt="Mi Tren Logo" className="w-16 h-16 sm:w-20 sm:h-20" />

@@ -10,6 +10,9 @@ const HomeMenu = lazy(() => import("@/pages/home/menu/HomeMenu"));
 const LinePage = lazy(() => import("@/pages/tickets/line/LinePage"))
 const TicketsPage = lazy(() => import("@/pages/tickets/tickets-number/TicketNumberPage"))
 const DestinationPage = lazy(() => import("@/pages/tickets/Destination/DestinationPage"))
+const TicketPaymentQR = lazy(() => import("@/pages/tickets/payment-method/TicketPaymentQR"))
+const PaymentQR = lazy(() => import("@/pages/tickets/payment-method/PaymentQR"))
+const VerificationQR = lazy(() => import("@/pages/tickets/payment-method/VerificationQR"))
 
 
 const RouterList = () => {
@@ -34,6 +37,21 @@ const RouterList = () => {
       <Route path="/linea/destination/*" element={
         <DecorationLayout>
           <SuspenseComponent><DestinationPage /></SuspenseComponent>
+        </DecorationLayout>
+      } />
+      <Route path="/ticket-payment*" element={
+        <DecorationLayout>
+          <SuspenseComponent><TicketPaymentQR /></SuspenseComponent>
+        </DecorationLayout>
+      } />
+      <Route path="/paymentQR/*" element={
+        <DecorationLayout>
+          <SuspenseComponent><PaymentQR /></SuspenseComponent>
+        </DecorationLayout>
+      } />
+      <Route path="/verificationQR/*" element={
+        <DecorationLayout>
+          <SuspenseComponent><VerificationQR /></SuspenseComponent>
         </DecorationLayout>
       } />
       <Route path="*" element={<NotmatchPage />} />
