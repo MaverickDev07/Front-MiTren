@@ -7,13 +7,13 @@ import DecorationLayout from "@/layouts/DecorationLayout";
 
 const HomeReposePage = lazy(() => import("@/pages/home/Repose/HomeReposePage"));
 const HomeMenu = lazy(() => import("@/pages/home/menu/HomeMenu"));
-const LinePage = lazy(() => import("@/pages/tickets/line/LinePage"))
-const TicketsPage = lazy(() => import("@/pages/tickets/tickets-number/TicketNumberPage"))
-const DestinationPage = lazy(() => import("@/pages/tickets/Destination/DestinationPage"))
-const TicketPaymentQR = lazy(() => import("@/pages/tickets/payment-method/TicketPaymentQR"))
-const PaymentQR = lazy(() => import("@/pages/tickets/payment-method/PaymentQR"))
-const VerificationQR = lazy(() => import("@/pages/tickets/payment-method/VerificationQR"))
-
+const LinePage = lazy(() => import("@/pages/kiosk/tickets/line/LinePage"))
+const TicketsPage = lazy(() => import("@/pages/kiosk/tickets/tickets-number/TicketNumberPage"))
+const DestinationPage = lazy(() => import("@/pages/kiosk/tickets/Destination/DestinationPage"))
+const TicketPaymentQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/TicketPaymentQR"))
+const PaymentQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/PaymentQR"))
+const VerificationQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/VerificationQR"))
+console.log(123)
 
 const RouterList = () => {
   return (

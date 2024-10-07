@@ -3,12 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import BackgroundEffect from "@/components/BackgroundEffect";
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
+import dotenv from 'dotenv';
 
+
+dotenv.config();
 // Base URL de la API de VeriPagos
-const API_URL = 'https://veripagos.com/api';
-const USERNAME = 'mitren'; // Nombre de usuario
-const PASSWORD = '-+1eFHxrU*'; // Contraseña
-const SECRET_KEY = 'd45b8d2d-9914-49cc-b337-2888cebf3d3e'; // Clave secreta de la API
+const API_URL = process.env.API_URL;
+const USERNAME = process.env.USERNAME;
+const PASSWORD = process.env.PASSWORD;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const PaymentQR = () => {
   const location = useLocation();
@@ -24,6 +27,7 @@ const PaymentQR = () => {
   const totalAmount = ticketCount; // Suponiendo que el ticketCount es el monto total
   const vigencia = '0/00:15'; // Vigencia del QR
 
+console.log(API_URL)
   // Función para generar el código QR
   const generateQR = useCallback(async () => {
     const credentials = btoa(`${USERNAME}:${PASSWORD}`);

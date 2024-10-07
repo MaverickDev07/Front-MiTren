@@ -10,7 +10,6 @@ const HomeMenu = () => {
   const location = useLocation();
   const path = location.pathname;
   const unnotted = path !== '/';
-
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-center items-center">
       <BackgroundEffect unnotted={unnotted} />
