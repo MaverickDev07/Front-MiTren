@@ -1,79 +1,100 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
-import BackgroundEffect from "@/components/BackgroundEffect";
-import { mockApiResponse } from "@/services/mockApiLine";
+import { useParams } from 'react-router';
 import { MenuIcon } from '@/assets/icons/menu-icon';
 import ButtonLink from '@/components/ButtonLink';
-import mapa from "@/assets/brand/mapa.svg";
+// import ArrowIcon from '@/assets/icons/flecha-icon';
+import useFetch from '@/hook/useFetch';
+import MapStation from './Map';
 
 const DestinationPage = () => {
-  const location = useLocation();
-  const path = location.pathname;
-  const unnotted = path !== '/';
-  const [line, setLine] = useState<{ id: string; line_name: string } | null>(null);
 
-  useEffect(() => {
-    const fetchLines = async () => {
-      const response = await new Promise<{ lines: { id: string; line_name: string }[] }>((resolve) => {
-        setTimeout(() => {
-          resolve(mockApiResponse);
-        }, 500);
-      });
-      if (response.lines.length > 0) {
-        setLine(response.lines[0]);
-      }
-    };
+  const { id } = useParams(); 
+  
+  const { data, loading, error } = useFetch("/v1/lines?sort_by=createdAt-asc&filter_by=line_name:/línea/i");
+  if (loading) return <div className="text-white text-center">Cargando líneas...</div>;
+  if (error) return <div className="text-red-500 ">{error}</div>;
 
-    fetchLines();
-  }, []);
+  const lineData = data?.lines.find(line => line.id === id);
 
+  if (!lineData) {
+    return <div className="text-red-500 text-center">Línea no encontrada</div>;
+  }
+  
   return (
-    <div className="container flex flex-col gap-6 mx-auto pt-8 px-4">
-    <div className="w-full lg:px-20 xl:px-[101px]">
-      <div className="flex flex-col sm:flex-row justify-between items-center p-4">
-      <div className="flex items-center gap-4 sm:gap-9">
-        <ButtonLink to="/" className="flex items-center">
-          <MenuIcon className="w-2 h-4 sm:w-8 sm:h-8" />
-          <span className="text-sm sm:text-base">Menu</span>
-        </ButtonLink>
-        <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">
-        Comprar Ticket - Destino
-        </h2>
-        <div className="flex items-center justify-center gap-4">
-        {line && (
-            <>
-              <div className={`flex items-center justify-center bg-red-500 rounded-full h-10 w-10 sm:h-12 sm:w-12`}></div>
-              <span className="font-bold text-xl sm:text-2xl text-white">{line.line_name}</span>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-    </div>
+    <div className="w-full min-h-screen relative flex flex-col justify-start items-center pt-10">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <BackgroundEffect unnotted={unnotted} />
-        <div className="flex flex-col lg:flex-row justify-between">
-          <div className="flex flex-col w-full lg:w-[508px] gap-4 flex-shrink-0">
-        <ButtonLink to='/linea/destination/tickets' className="bg-white text-black h-[70px] sm:h-[82px] flex items-center justify-between px-4">
-          <div className="flex-1 text-left">
-            Estación Central S.A.
-          </div>
-          <svg className="h-5 w-5 text-black sm:h-6 sm:w-6" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  
-            <path stroke="none" d="M0 0h24v24H0z"/>  
-            <line x1="5" y1="12" x2="19" y2="12" />  
-            <line x1="13" y1="18" x2="19" y2="12" />  
-            <line x1="13" y1="6" x2="19" y2="12" />
-          </svg>
-        </ButtonLink>
-          </div>
-          <div className="w-full mt-4 lg:mt-0">
-            <img src={mapa} alt="mapa"/>
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            {/* Columna del botón "Menu" */}
+            <div className="flex items-center justify-start p-8 rounded-lg col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <ButtonLink to="/kiosk" className="flex items-center">
+                <MenuIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+                <span className="text-base sm:text-lg ml-2">Menu</span>
+              </ButtonLink>
+            </div>
+
+            {/* Columna centrada */}
+            <div className="flex items-center justify-center p-6 text-white col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1">
+              <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl text-white text-center uppercase mb-24">SELECCIONE SU DESTINO</h2>
+            </div>
+
+            {/* Columna de la línea roja */}
+            <div className="flex items-center justify-end p-6 rounded-lg col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <h2 className="text-base sm:text-lg text-white">{lineData.line_name}</h2>
+              <div className="h-4 w-4 bg-red-500 rounded-full ml-2"></div> {/* Círculo rojo */}
+            </div>
           </div>
         </div>
-        <h3 className="font-bold text-2xl sm:text-4xl text-white">Mas destinos</h3>
-        <div className='text-center font-Inconsolata font-bold text-white text-[40px]'>
-          <h3 className="">Estacion Antigua Cbba</h3>
+    
+        {/* Solo un contenedor de cuadrícula para evitar confusión */}
+        <div className="container mx-auto px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div className="flex items-center justify-start p-8 rounded-lg col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              {data?.lines.map((line) => (
+                <ButtonLink to={`/kiosk/linea/${line.id}/destination/`} className="flex items-center">
+                  <div className={`h-4 w-4 rounded-full mr-2 ${line.line_name === "LÍNEA ROJA" ? "bg-red-500" : line.line_name === "LÍNEA AMARILLA" ? "bg-yellow-500" : "bg-green-500"}`}></div>
+                  <span className="text-base sm:text-lg ml-2">{line.line_name}</span>
+                </ButtonLink>
+              ))}
+            </div>
+          </div>
         </div>
+
+        {/* <div className="container mx-auto px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            Columna del Direccion
+            <div className="flex items-center justify-start p-8 rounded-lg col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1">
+              <span className="text-base sm:text-lg ml-2">Menu</span>
+            </div>
+
+            Columna Mapa
+            <div className="flex items-center justify-center p-6 text-white col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1">
+              
+            </div>
+          </div>
+        </div> */}
+
+
+        <div className="container mx-auto p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            {/* Columna del Direccion */}
+            <div className="p-6 bg-blue-500 text-white">
+              <ButtonLink to="/kiosk" className="flex items-center">
+                <MenuIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+                <span className="text-base sm:text-lg ml-2">Direccion</span>
+              </ButtonLink>
+              <ButtonLink to="/kiosk" className="flex items-center">
+                <MenuIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+                <span className="text-base sm:text-lg ml-2">Direccion</span>
+              </ButtonLink>
+            </div>
+              {/* Columna Mapa */}
+            <div className="p-6 bg-green-500 text-white">
+              <MapStation />
+            </div>
+          </div>
+        </div>
+        
+
       </div>
     </div>
   );
