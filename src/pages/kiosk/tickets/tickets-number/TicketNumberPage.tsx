@@ -59,7 +59,7 @@ const TicketNumberPage = () => {
               onIncrement={increment} 
               onDecrement={decrement} 
             />
-            <ButtonLink to='/linea/destination/66c0bb4a92e47eb2f5e913f2' className="bg-white text-black h-[70px] sm:h-[82px] flex items-center justify-between px-4">
+            <ButtonLink to='/kiosk/destination' className="bg-white text-black h-[70px] sm:h-[82px] flex items-center justify-between px-4">
               <svg className="h-8 w-8 text-black-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
               </svg>

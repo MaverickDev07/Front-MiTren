@@ -13,6 +13,8 @@ export default {
         'lg': '1024px',
         'xl': '1280px',
         '2xl': '1536px',
+        '4xl': '1920px',
+        'et1291': '800px',
       },
       backgroundImage: {
         doodle: "url('/images/backgrounds/doodle.svg')",
@@ -52,6 +54,7 @@ export default {
       animation: {
         "unnotted-decoration-left": "unnotted-decoration-left-animation 0.3s ease forwards",
         "unnotted-decoration-right": "unnotted-decoration-right-animation 0.3s ease forwards",
+        "unnotted-decoration": "unnotted-decoration-animation 0.3s ease forwards",
         "notted-decoration-left": "notted-decoration-left-animation 0.3s ease forwards",
         "notted-decoration-right": "notted-decoration-right-animation 0.3s ease forwards",
       },
@@ -73,6 +76,14 @@ export default {
           },
           to: {
             right: "-8.6rem",
+            opacity: '0.7'
+          },
+        },
+        "unnotted-decoration-animation": {
+          from: { 
+            opacity: '1'
+          },
+          to: {
             opacity: '0.7'
           },
         },

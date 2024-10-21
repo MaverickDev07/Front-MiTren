@@ -8,7 +8,7 @@ const MenuLayout = ({ children }: MenuLayoutProps) => {
   const unnotted = path !== '/'
 
   return (
-    <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover">
+    <div className="relative w-full min-h-screen bg-mitren-primary bg-doodle bg-cover">
       <BackgroundEffectHome unnotted={unnotted} />
       {children}
     </div>

@@ -1,12 +1,12 @@
 import MiTrenLogo from "@/assets/brand/mitren-logo.webp";
 import ButtonLink from "./ButtonLink";
-import { MenuIcon } from "@/assets/icons/menu-icon";
+import { MenuIcon } from "@/assets/icons";
 
 const NavigatorTop = () => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center p-4">
       <div className="flex items-center gap-4 sm:gap-9">
-        <ButtonLink to="/" className="flex items-center">
+        <ButtonLink to="/kiosk/menu" className="flex items-center">
           <MenuIcon className="w-6 h-6 sm:w-8 sm:h-8" />
           <span className="text-sm sm:text-base">Menu</span>
         </ButtonLink>

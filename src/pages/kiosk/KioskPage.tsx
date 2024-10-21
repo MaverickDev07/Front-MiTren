@@ -8,7 +8,7 @@ import MenuLayout from "@/layouts/MenuLayout";
 
 const HomeMenu = lazy(() => import("@/pages/kiosk/home/HomeMenu"));
 const HomeReposePage = lazy(() => import("@/pages/kiosk/home/HomeReposePage"));
-const LinePage = lazy(() => import("@/pages/kiosk/tickets/line/LinePage"));
+// const LinePage = lazy(() => import("@/pages/kiosk/tickets/line(estac)/LinePage"));
 const TicketsPage = lazy(() => import("@/pages/kiosk/tickets/tickets-number/TicketNumberPage"));
 const DestinationPage = lazy(() => import("@/pages/kiosk/tickets/Destination/DestinationPage"));
 const TicketPaymentQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/TicketPaymentQR"));
@@ -18,11 +18,11 @@ const VerificationQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/V
 const KioskPage = () => {
   return (
     <Routes>
-      <Route path="/" element={<MenuLayout><SuspenseComponent><HomeMenu /></SuspenseComponent></MenuLayout>} />
-      <Route path="/repose" element={<RestLayout><HomeReposePage /></RestLayout>} />
-      <Route path="/linea/:id/destination/*" element={<DecorationLayout><SuspenseComponent><DestinationPage /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/linea/destination/tickets/*" element={<DecorationLayout><SuspenseComponent><TicketsPage /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/linea/*" element={<DecorationLayout><SuspenseComponent><LinePage /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/" element={<RestLayout><HomeReposePage /></RestLayout>} />
+      <Route path="/menu" element={<MenuLayout><SuspenseComponent><HomeMenu /></SuspenseComponent></MenuLayout>} />
+      <Route path="/destination/*" element={<DecorationLayout><SuspenseComponent><DestinationPage /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/destination/tickets/*" element={<DecorationLayout><SuspenseComponent><TicketsPage /></SuspenseComponent></DecorationLayout>} />
+      {/* <Route path="/linea/*" element={<DecorationLayout><SuspenseComponent><LinePage /></SuspenseComponent></DecorationLayout>} /> */}
       <Route path="/ticket-payment*" element={<DecorationLayout><SuspenseComponent><TicketPaymentQR /></SuspenseComponent></DecorationLayout>} />
       <Route path="/paymentQR/*" element={<DecorationLayout><SuspenseComponent><PaymentQR /></SuspenseComponent></DecorationLayout>} />
       <Route path="/verificationQR/*" element={<DecorationLayout><SuspenseComponent><VerificationQR /></SuspenseComponent></DecorationLayout>} />
