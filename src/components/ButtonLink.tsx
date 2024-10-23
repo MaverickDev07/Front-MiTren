@@ -15,21 +15,24 @@ type ButtonLinkProps = {
   borderColor?: string;
   borderVisible?: boolean; 
   backgroundColor?: string;
+  height?: string; 
 };
 
 const ButtonLink = ({
   children,
   to = "/",
-  className = "",
+  className = "inline-flex justify-center items-center gap-4 p-3 sm:p-4 md:p-5 lg:p-6",
   type = "button",
   onClick,  
-  fontSize = "text-2xl",
+  fontSize = "text-lg md:text-base lg:text-xl 4xl:text-xl", // Ajuste de tamaño de fuente para mejor responsividad
   fontFamily = "font-interTight",
   rounded = "rounded-[44px]", 
   textColor = "text-black", 
   borderColor = "border-black",
   borderVisible = true,
-  backgroundColor = "bg-white", 
+  backgroundColor = "bg-white",
+  height = "h-[60px] sm:h-[70px] md:h-[68px] lg:h-[80px] xl:h[80px] 4xl:h-[100px]"
+  
 }: ButtonLinkProps) => {
   return (
     <NavLink to={to} className="inline-flex relative w-full">
@@ -38,24 +41,22 @@ const ButtonLink = ({
         onClick={onClick} 
         className={cn(
           "relative z-[1]",
-          "inline-flex justify-center items-center gap-4 p-4 sm:p-6 lg:p-8",
-          "w-full",
           fontSize,
           "uppercase",
           fontFamily,
           textColor, 
           "font-bold select-none",
           rounded,
-          borderVisible ? `${borderColor} border-[10px]` : "border-0",
+          borderVisible ? `${borderColor} border-[2px]` : "border-0", // Ajuste del borde
           backgroundColor,
           "active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85",
-          "h-[82px]",
+          height, // Ajuste de altura
           className
         )}
       >
         {children}
       </button>
-      <span className="absolute w-full h-full bg-black z-0 rounded-[44px] top-2"></span>
+      <span className="absolute w-full h-full z-0 rounded-[44px] top-1"></span> {/* Ajuste para que el fondo se vea mejor */}
     </NavLink>
   );
 }
