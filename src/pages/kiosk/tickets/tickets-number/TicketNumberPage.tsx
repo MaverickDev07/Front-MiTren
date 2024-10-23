@@ -6,16 +6,18 @@ import { useLocation, useNavigate } from "react-router";
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
 import { mockApiDestino } from "@/services/mockApiDestino";
+import { ArrowIcon, ArrowIconR } from '@/assets/icons';
 
 const TicketNumberPage = () => {
   const location = useLocation();
   const path = location.pathname;
   const unnotted = path !== '/';
   const navigate = useNavigate();
-
   const [count, setCount] = useState(0);
   const [line, setLine] = useState(null);
   const [destination, setDestination] = useState(null);
+
+  console.log(path)
 
   useEffect(() => {
     const fetchDestination = async () => {
@@ -60,9 +62,7 @@ const TicketNumberPage = () => {
               onDecrement={decrement} 
             />
             <ButtonLink to='/kiosk/destination' className="bg-white text-black h-[70px] sm:h-[82px] flex items-center justify-between px-4">
-              <svg className="h-8 w-8 text-black-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-              </svg>
+              <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
               <div className="flex-1 text-left">Destinos</div>
             </ButtonLink>
           </div>
@@ -70,12 +70,7 @@ const TicketNumberPage = () => {
             <TicketResume ticketCount={count} />
             <button onClick={handlePayment} className="relative z-[1] inline-flex justify-center items-center gap-4 p-8 w-full text-2xl uppercase font-interTight font-bold select-none rounded-[44px] box-border border-black border-[10px] active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85 bg-white h-[82px]">
               <div className="flex-1 text-left">Pagar</div>
-              <svg className="h-8 w-8 text-black-500" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <line x1="13" y1="18" x2="19" y2="12" />
-                <line x1="13" y1="6" x2="19" y2="12" />
-              </svg>
+              <ArrowIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
             </button>
           </div>
         </div>

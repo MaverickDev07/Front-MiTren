@@ -4,46 +4,47 @@ import useFetch from '@/hook/useFetch';
 import MultiColumnLayout from '@/components/MultiColumnLayout';
 import { useState } from 'react';
 import MapStation from './Map';
+import { useNavigate } from 'react-router-dom';
+
+// Definición de la interfaz Line
+interface Line {
+  id: string;
+  line_name: string;
+  color: string;
+}
 
 const DestinationPage = () => {
-  const [selectedLine, setSelectedLine] = useState<string | null>(null);
-  const [selectedLineId, setSelectedLineId] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [selectedLine, setSelectedLine] = useState<Line | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const limit = 5;
   
-  const { data: linesData, loading: linesLoading, error: linesError } = useFetch("/v1/lines?sort_by=createdAt-asc&filter_by=line_name:/línea/i");
-  const { data: kiosksData, loading: kiosksLoading, error: kiosksError } = useFetch("/v1/kiosks/env-id/station");
-  const { data: routesData, loading: routesLoading } = useFetch(selectedLineId ? `/v1/routes/line/${selectedLineId}?limit=${limit}&page=${currentPage}` : null);
-  const location = kiosksData?.kiosk?.station?.location;
+  const { data: linesData, loading: linesLoading, error: linesError } = useFetch("/v1/ticket_flow/step-1/lines");
+  const { data: kiosksData, loading: kiosksLoading, error: kiosksError } = useFetch("/v1/ticket_flow/step-2/env-id/station");
+  const { data: routesData, loading: routesLoading } = useFetch(selectedLine?.id ? `/v1/ticket_flow/step-2/line/${selectedLine.id}?limit=${limit}&page=${currentPage}` : null);
+  const kiosksDat = kiosksData?.kiosk?.station;
 
   // Manejo de carga y errores
-  if (linesLoading || kiosksLoading || (selectedLineId && routesLoading)) return <div className="text-white text-center">Cargando líneas...</div>;
+  if (linesLoading || kiosksLoading || (selectedLine && routesLoading)) return <div className="text-white text-center">Cargando líneas...</div>;
   if (linesError) return <div className="text-red-500">{linesError}</div>;
   if (kiosksError) return <div className="text-red-500">{kiosksError}</div>;
   if (routesLoading) return <div className="text-white text-center">Cargando rutas...</div>;
-
-  const lineColors = {
-    "LÍNEA ROJA": "#FF0000",
-    "LÍNEA AMARILLA": "#FFFF00",
-    "LÍNEA VERDE": "#008000",
-  };
 
   const columnsline = [
     { id: 'col1',
       content:
       <div className="flex items-center justify-start p-4 rounded-lg col-span-1">
-        {linesData?.lines.map((line: any) => (
+        {linesData?.lines.map((line: Line) => (
           <ButtonLink 
             to={`/kiosk/destination/${line.id}`} 
             key={line.id}
             onClick={() => {
-              setSelectedLine(line.line_name);
-              setSelectedLineId(line.id);
+              setSelectedLine(line); // Ahora pasamos el objeto completo Line
               setCurrentPage(1);
             }}
             height = "h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
           >
-            <div className={`h-4 w-4 rounded-full mr-2`} style={{ backgroundColor: lineColors[line.line_name] }}></div>
+            <div className={`h-4 w-4 rounded-full mr-2`} style={{ backgroundColor: line.color }}></div>
             <span className="text-xs sm:text-xs md:text-xs lg:text-lg ml-2">{line.line_name}</span>
           </ButtonLink>
         ))}
@@ -59,8 +60,18 @@ const DestinationPage = () => {
           <div key={station.id} className="flex justify-between p-2">
             <ButtonLink 
               to={`/kiosk/destination/tickets/${station.id}`}
-              className='w-full inline-flex justify-center items-center gap-4 p-3 sm:p-4 md:p-4 lg:p-8'
+              className='w-full inline-flex justify-between items-center gap-4 p-3 sm:p-4 md:p-4 lg:p-8'
               height = "h-[60px] sm:h-[20px] md:h-[20px] lg:h-[70px] xl:h[80px] 4xl:h-[100px]"
+              onClick={() => {
+                navigate(`/kiosk/destination/tickets/${station.id}`, {
+                  state: {
+                    lineName: selectedLine?.line_name,
+                    lineId: selectedLine?.id,
+                    stationName: station.station_name,
+                    stationId: station.id
+                  },
+                });
+              }}
             >
               <span className="text-xs sm:text-xs md:text-xs lg:text-2xl ml-2">{station.station_name}</span>
               <ArrowIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
@@ -92,7 +103,7 @@ const DestinationPage = () => {
     { id: 'col2',
       content:
       <div className="w-full h-full flex items-center flex-col">
-        {location && <MapStation latitude={location.latitude} longitude={location.longitude} />} 
+        {kiosksDat && <MapStation latitude={kiosksDat?.location.latitude} longitude={kiosksDat?.location.longitude} />} 
       </div>
     },
   ];
@@ -112,8 +123,8 @@ const DestinationPage = () => {
               <span className="font-bold text-2xl sm:text-lg md:text-lg lg:text-3xl text-white text-center mb-24 py-2">SELECCIONE SU DESTINO</span>
             </div>
             <div className="flex items-center justify-end p-6 rounded-lg col-span-1 text-white">
-              <h2 className="text-base sm:text-xs md:text-xs lg:text-lg text-white">{selectedLine || "Ninguna línea seleccionada"}</h2>
-              {selectedLine && <div className="h-4 w-4" style={{ backgroundColor: lineColors[selectedLine], borderRadius: '50%' }}></div>}
+              <h2 className="text-base sm:text-xs md:text-xs lg:text-lg text-white">{selectedLine?.line_name || "Ninguna línea seleccionada"}</h2>
+              {selectedLine && <div className="h-4 w-4" style={{ backgroundColor: selectedLine.color, borderRadius: '50%' }}></div>}
             </div> 
           </div>
         </div>
