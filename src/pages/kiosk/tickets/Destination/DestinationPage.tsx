@@ -29,7 +29,7 @@ const DestinationPage = () => {
   if (linesError) return <div className="text-red-500">{linesError}</div>;
   if (kiosksError) return <div className="text-red-500">{kiosksError}</div>;
   if (routesLoading) return <div className="text-white text-center">Cargando rutas...</div>;
-
+  
   const columnsline = [
     { id: 'col1',
       content:
@@ -39,7 +39,7 @@ const DestinationPage = () => {
             to={`/kiosk/destination/${line.id}`} 
             key={line.id}
             onClick={() => {
-              setSelectedLine(line); // Ahora pasamos el objeto completo Line
+              setSelectedLine(line);
               setCurrentPage(1);
             }}
             height = "h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"

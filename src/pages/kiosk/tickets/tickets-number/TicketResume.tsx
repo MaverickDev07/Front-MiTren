@@ -43,7 +43,7 @@ const TicketResume = ({ ticketCount }) => {
                       <td>{ticketCount}</td>
                       <td>General</td>
                       <td>1</td>
-                      <td>{ticketCount * 1}</td>
+                      <td>{ticketCount * 0.75}</td>
                     </tr>
                   </tbody>
                 </table>
