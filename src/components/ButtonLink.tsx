@@ -28,7 +28,7 @@ const ButtonLink = ({
   fontFamily = "font-interTight",
   rounded = "rounded-[44px]", 
   textColor = "text-black", 
-  borderColor = "border-black",
+  borderColor = "border-black border-[2px]", // box-border border-black border-[10px]
   borderVisible = true,
   backgroundColor = "bg-white",
   height = "h-[60px] sm:h-[70px] md:h-[68px] lg:h-[80px] xl:h[80px] 4xl:h-[100px]"
@@ -47,7 +47,7 @@ const ButtonLink = ({
           textColor, 
           "font-bold select-none",
           rounded,
-          borderVisible ? `${borderColor} border-[2px]` : "border-0", // Ajuste del borde
+          borderVisible ? `${borderColor}` : "border-0", // Ajuste del borde
           backgroundColor,
           "active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85",
           height, // Ajuste de altura

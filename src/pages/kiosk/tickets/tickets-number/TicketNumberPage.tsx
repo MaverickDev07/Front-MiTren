@@ -66,7 +66,8 @@ const TicketNumberPage = () => {
       [type]: Math.max(prev[type] - 1, 0),
     }));
   };
-
+  console.log('de',decrement)
+  console.log('in',increment)
   const handlePayment = () => {
     navigate('/ticket-payment', { state: { ticketCount: count, line, destination } });
   };
@@ -75,8 +76,7 @@ const TicketNumberPage = () => {
     {
       id: 'col1',
       content: (
-        <div className="flex flex-col w-full gap-4 flex-shrink-0">
-          {/* Mapeo de los tipos de tickets y precios */}
+        <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
           {prices.map((price: any) => (
             <TicketNumberItem
               key={price.id}
@@ -87,10 +87,16 @@ const TicketNumberPage = () => {
               customerType={price.customer_type}
             />
           ))}
-          <ButtonLink to='/kiosk/destination' className="bg-white text-black h-[70px] sm:h-[82px] flex items-center justify-between px-4">
-            <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
+          <ButtonLink 
+            to='/kiosk/destination' className="bg-white text-black flex items-center justify-between px-4 bg-red" 
+            height = "h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
+            backgroundColor="bg-yellow-500"
+            borderColor="box-border border-black border-[10px]"
+            >
+            <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8"/>
             <div className="flex-1 text-left">Destinos</div>
           </ButtonLink>
+          {/* Mapeo de los tipos de tickets y precios */}
         </div>
       ),
     },
@@ -100,9 +106,10 @@ const TicketNumberPage = () => {
         <div className="w-full mt-4 lg:mt-0">
           {/* Aquí puedes agregar cualquier otro contenido */}
           {/* <TicketResume ticketCount={count} />
-            <button onClick={handlePayment} className="relative z-[1] inline-flex justify-center items-center gap-4 p-8 w-full text-2xl uppercase font-interTight font-bold select-none rounded-[44px] box-border border-black border-[10px] active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85 bg-white h-[82px]">
+            <button onClick={handlePayment} 
+              className="relative z-[1] inline-flex justify-center items-center gap-4 p-8 w-full text-2xl uppercase font-interTight font-bold select-none rounded-[44px] box-border border-black border-[10px] active:translate-y-1 transition duration-[25ms] ease-linear active:opacity-85 bg-white h-[82px]">
               <div className="flex-1 text-left">Pagar</div>
-              <ArrowIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
+              <ArrowIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8" />
             </button> */}
         </div>
       ),
@@ -114,7 +121,7 @@ const TicketNumberPage = () => {
       <div className="w-full lg:px-20 xl:px-[101px]">
         <NavigatorTop />
       </div>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-8">
         <MultiColumnLayout columns={columnsTicket} />
       </div>
     </div>

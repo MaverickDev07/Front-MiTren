@@ -1,25 +1,7 @@
 import { useEffect, useState } from 'react';
-import { mockApiDestino } from "@/services/mockApiDestino";
 
 const TicketResume = ({ ticketCount }) => {
-  const [line, setLine] = useState<{ id: string; line_name: string } | null>(null);
-  const [destination, setDestination] = useState<{ id: string; name: string } | null>(null);
   
-
-  useEffect(() => {
-    const fetchDestination = async () => {
-      const response = await new Promise<{ selectedLine: { id: string; line_name: string }, selectedDestination: { id: string; name: string } }>((resolve) => {
-        setTimeout(() => {
-          resolve(mockApiDestino);
-        }, 500);
-      });
-      
-      setLine(response.selectedLine);
-      setDestination(response.selectedDestination);
-    };
-
-    fetchDestination();
-  }, []);
 
   return (
     <>
