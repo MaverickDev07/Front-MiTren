@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface IconProps {
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
   className?: string;
 }
 
-const CustomIcon: React.FC<IconProps> = ({ width = 125, height = 125, className }) => {
+const RoundIcon: React.FC<IconProps> = ({ width, height }) => {
   return (
     <svg
       width={width}
@@ -14,7 +14,6 @@ const CustomIcon: React.FC<IconProps> = ({ width = 125, height = 125, className 
       viewBox="0 0 121 125"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
     >
       <g opacity="0.15">
         <mask
@@ -43,7 +42,6 @@ const CustomIcon: React.FC<IconProps> = ({ width = 125, height = 125, className 
           <path d="M-36.5684 187.964L-171.867 52.6649L-33.5618 -85.6407L101.737 49.6582L-36.5684 187.964Z" fill="#0691E4" />
           <path d="M90.7129 60.1814L-112.236 -6.96691L68.6641 -187.867L267.604 11.0729L90.7129 60.1814Z" fill="#804591" />
           <path d="M194.442 340.801L-4.49726 141.861L81.6932 55.6708L309.697 225.546L194.442 340.801Z" fill="#FBE711" />
-          <path d="M280.633 254.61L81.6932 55.6708L196.948 -59.5839L395.887 139.356L280.633 254.61Z" fill="#EE2222" />
           <path d="M-34.5639 171.928L64.1543 270.646L81.693 55.6714L-34.5639 171.928Z" fill="#03A116" />
         </g>
       </g>
@@ -51,5 +49,5 @@ const CustomIcon: React.FC<IconProps> = ({ width = 125, height = 125, className 
   );
 };
 
-export default CustomIcon;
+export default RoundIcon;
 

@@ -5,18 +5,26 @@ import MultiColumnLayout from '@/components/MultiColumnLayout';
 import { useState } from 'react';
 import MapStation from './Map';
 import { useNavigate } from 'react-router-dom';
+import ButtonBase from '@/components/ButtonBase';
 
-// Definición de la interfaz Line
+// Definición de la interfaz Line y Destination
 interface Line {
   id: string;
   line_name: string;
   color: string;
 }
 
+interface Destination {
+  station_id_start: string;
+  station_id_end: string;
+  station_name: string;
+}
+
 const DestinationPage = () => {
   const navigate = useNavigate();
   const [selectedLine, setSelectedLine] = useState<Line | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itinerary, setItinerary] = useState<Destination[]>([]); // Historial de destinos
   const limit = 5;
   
   const { data: linesData, loading: linesLoading, error: linesError } = useFetch("/v1/ticket_flow/step-1/lines");
@@ -24,12 +32,39 @@ const DestinationPage = () => {
   const { data: routesData, loading: routesLoading } = useFetch(selectedLine?.id ? `/v1/ticket_flow/step-2/line/${selectedLine.id}?limit=${limit}&page=${currentPage}` : null);
   const kiosksDat = kiosksData?.kiosk?.station;
 
-  // Manejo de carga y errores
+  console.log(linesData)
+
   if (linesLoading || kiosksLoading || (selectedLine && routesLoading)) return <div className="text-white text-center">Cargando líneas...</div>;
   if (linesError) return <div className="text-red-500">{linesError}</div>;
   if (kiosksError) return <div className="text-red-500">{kiosksError}</div>;
   if (routesLoading) return <div className="text-white text-center">Cargando rutas...</div>;
   
+  // Función para agregar un destino y permitir el cambio de línea
+  const addDestinationToItinerary = (station: any) => {
+    const newDestination = {
+      station_id_start: kiosksDat.id,
+      station_id_end: station.id,
+      station_name: station.station_name,
+    };
+    const updatedItinerary = [...itinerary, newDestination];
+    setItinerary(updatedItinerary);
+  
+    navigate(`/kiosk/destination/tickets/${station.id}`, {
+      state: {
+        itinerary: updatedItinerary,
+      },
+    });
+  };
+  // Función para cambiar a otra línea
+  const handleNextLine = () => {
+    const nextLine = linesData?.lines.find((line: Line) => line.id !== selectedLine?.id);
+    if (nextLine) {
+      setSelectedLine(nextLine);
+      setCurrentPage(1);
+    }
+  };
+
+  // Columnas para las líneas
   const columnsline = [
     { id: 'col1',
       content:
@@ -42,7 +77,7 @@ const DestinationPage = () => {
               setSelectedLine(line);
               setCurrentPage(1);
             }}
-            height = "h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
+            height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
           >
             <div className={`h-4 w-4 rounded-full mr-2`} style={{ backgroundColor: line.color }}></div>
             <span className="text-xs sm:text-xs md:text-xs lg:text-lg ml-2">{line.line_name}</span>
@@ -52,30 +87,23 @@ const DestinationPage = () => {
     },
   ];
 
+  // Columnas para los destinos
   const columnsdestiny = [
     { id: 'col1',
       content: 
       <div className="p-6 text-white">
-        {routesData?.routePaged.docs.map((station: any) => (
+        {kiosksDat && routesData?.routePaged.docs.map((station: any) => (
           <div key={station.id} className="flex justify-between p-2">
-            <ButtonLink 
-              to={`/kiosk/destination/tickets/${station.id}`}
+            <ButtonBase 
               className='w-full inline-flex justify-between items-center gap-4 p-3 sm:p-4 md:p-4 lg:p-8'
-              height = "h-[60px] sm:h-[20px] md:h-[20px] lg:h-[70px] xl:h[80px] 4xl:h-[100px]"
+              height="h-[60px] sm:h-[20px] md:h-[20px] lg:h-[70px] xl:h[80px] 4xl:h-[100px]"
               onClick={() => {
-                navigate(`/kiosk/destination/tickets/${station.id}`, {
-                  state: {
-                    lineName: selectedLine?.line_name,
-                    lineId: selectedLine?.id,
-                    stationName: station.station_name,
-                    stationId: station.id
-                  },
-                });
+                addDestinationToItinerary(station);
               }}
             >
               <span className="text-xs sm:text-xs md:text-xs lg:text-2xl ml-2">{station.station_name}</span>
               <ArrowIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
-            </ButtonLink>
+            </ButtonBase>
           </div>
         ))}
         {/* Paginación */}
@@ -94,7 +122,7 @@ const DestinationPage = () => {
               disabled={currentPage === routesData.routePaged.totalPages}
               className="bg-gray-300 p-2 rounded disabled:opacity-50"
             >
-              <ArrowIcon1 className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8 text-gray-900"/>
+              <ArrowIcon1 className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h-8 lg:w-8 lg:h-8 text-gray-900"/>
             </button>
           </div>
         )}
@@ -104,6 +132,15 @@ const DestinationPage = () => {
       content:
       <div className="w-full h-full flex items-center flex-col">
         {kiosksDat && <MapStation latitude={kiosksDat?.location.latitude} longitude={kiosksDat?.location.longitude} />} 
+        {/* Botón "Más destinos" para cambiar de línea */}
+        {linesData?.lines.length > 1 && (
+          <button
+            onClick={handleNextLine}
+            className="bg-white font-black text-black w-8 h-8 sm:w-6 sm:h-6 md:w-[10rem] md:h-8 lg:w-[20rem] lg:h-[4rem] p-2 rounded mt-2"
+          >
+            Más destinos (Transbordo)
+          </button>
+        )}
       </div>
     },
   ];
@@ -114,7 +151,7 @@ const DestinationPage = () => {
         <div className="container mx-auto px-6" style={{height: "115px"}}>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
             <div className="flex items-center justify-start rounded-lg col-span-1">
-              <ButtonLink to="/kiosk/menu" height = "h-[60px] sm:h-[40px] md:h-[40px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]">
+              <ButtonLink to="/kiosk/menu" height="h-[60px] sm:h-[40px] md:h-[40px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]">
                 <MenuIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
                 <span className="text-base sm:text-xs md:text-xs lg:text-lg ml-2">Menu</span>
               </ButtonLink>
