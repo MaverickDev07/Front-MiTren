@@ -1,4 +1,15 @@
+import { useLocation } from 'react-router-dom';
+
 const Ticket = ({ counts, pricesMap, origin, destination, line, transfer, transfer_end_line, transfer_station }) => {
+  const location = useLocation();
+
+  // Calcular el total sumando los precios de los tickets multiplicados por los contadores
+  const totalAmount = Object.keys(counts).reduce((total, ticketType) => {
+    const count = counts[ticketType] || 0;
+    const price = pricesMap[ticketType] || 0;
+    return total + count * price;
+  }, 0);
+
   // Verificar si al menos un tipo de ticket tiene un contador mayor a cero
   const hasTickets = Object.values(counts).some(count => count > 0);
 
@@ -9,7 +20,7 @@ const Ticket = ({ counts, pricesMap, origin, destination, line, transfer, transf
 
       {hasTickets && (
         <>
-          <div className="flex justify-between font-bold sm:text-xs md:text-xs lg:text-2xl font-bold mb-4 mb-2">
+          <div className="flex justify-between font-bold sm:text-xs md:text-xs lg:text-2xl font-bold mb-4">
             <span>CANT</span>
             <span>TICKET</span>
             <span>PRECIO</span>
@@ -41,12 +52,19 @@ const Ticket = ({ counts, pricesMap, origin, destination, line, transfer, transf
 
       {transfer ? (
         <>
-          <p className="sm:text-xs md:text-xs lg:text-2xl">Transbordo: Si</p>
+          <p className="sm:text-xs md:text-xs lg:text-2xl">Transbordo: Sí</p>
           <p className="sm:text-xs md:text-xs lg:text-2xl">A: {transfer_end_line}</p>
           <p className="sm:text-xs md:text-xs lg:text-2xl">En: {transfer_station}</p>
         </>
       ) : (
-        <p className="sm:text-xs md:text-xs lg:text-2xl">Transbordo: NO</p>
+        <p className="sm:text-xs md:text-xs lg:text-2xl">Transbordo: No</p>
+      )}
+
+      {/* Mostrar el total solo en la página de pago */}
+      {location.pathname === '/kiosk/ticket-payment' && hasTickets && (
+        <div className="mt-6 text-right font-bold sm:text-xs md:text-xl lg:text-2xl">
+          <p>Total: {totalAmount.toFixed(2)} bs</p>
+        </div>
       )}
     </div>
   );

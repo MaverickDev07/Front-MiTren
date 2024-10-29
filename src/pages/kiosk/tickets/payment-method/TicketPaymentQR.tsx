@@ -4,6 +4,7 @@ import { ArrowIcon, CardIcon, MoneyIcon, QRicon } from "@/assets/icons";
 // import useFetch from "@/hook/useFetch";
 import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
+import Ticket from "../tickets-number/TicketResume";
 interface Method {
   id: string;
   method_name: string;
@@ -15,8 +16,8 @@ const TicketPaymentQR = () => {
   const navigate = useNavigate(); // Usar useNavigate para la navegación
   
   // const { counts, destination, line, origin, pricesMap, transfer, transfer_end_line, transfer_station} = location.state || {};
-  const { ticketCount, line, destination } = location.state || {};
-
+  const ticketData = location.state;
+  console.log(location)
   // respuesta Hipotetica guardada en objeto de una API
   const metodos2= {methods:[
         {
@@ -42,19 +43,20 @@ const TicketPaymentQR = () => {
 
   
 
+  <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">Comprar Ticket</h2>
   const columnsPay = [
     {
       id: "col1",
       content: (
         <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
+          <h2 className="font-bold text-2xl sm:text-2xl lg:text-4xl text-white uppercase px-2">METODOS DE PAGO</h2>
           {metodos2?.methods.map((method: Method) => {
             const MethodIcon = iconMap[method.id]; // Obtiene el ícono basado en el id
-
             return (
               <ButtonBase
                 key={method.id} // Asegúrate de usar una key única
                 className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
-                height="h-[60px] sm:h-[50px] md:h-[60px] md:w-[300px] lg:h-[60px] lg:w-[800px] xl:h[60px] 4xl:h-[60px]"
+                height="h-[60px] sm:h-[50px] md:h-[70px] md:w-[300px] lg:h-[100px] lg:w-[800px] xl:h[100px] 4xl:h-[100px]"
                 borderColor="box-border border-black border-[10px]"
                 // onClick={handlePayment}
               >
@@ -71,7 +73,20 @@ const TicketPaymentQR = () => {
       id: 'col2',
       content: (
         <div className="w-full mt-1 lg:mt-0">
-          espacio para resumen con total precio
+          {ticketData ? (
+            <Ticket 
+              counts={ticketData.counts}
+              pricesMap={ticketData.pricesMap}
+              origin={ticketData.origin}
+              destination={ticketData.destination}
+              line={ticketData.line}
+              transfer={ticketData.transfer}
+              transfer_end_line={ticketData.transfer_end_line}
+              transfer_station={ticketData.transfer_station}
+            />
+          ) : (
+            <p>No se recibieron datos del ticket.</p>
+          )} 
         </div>
       ),
     },
