@@ -49,7 +49,7 @@ const DestinationPage = () => {
     const updatedItinerary = [...itinerary, newDestination];
     setItinerary(updatedItinerary);
   
-    navigate(`/kiosk/destination/tickets/${station.id}`, {
+    navigate(`/kiosk/destination/tickets/${kiosksDat.id}`, {
       state: {
         itinerary: updatedItinerary,
       },
@@ -136,9 +136,9 @@ const DestinationPage = () => {
         {linesData?.lines.length > 1 && (
           <button
             onClick={handleNextLine}
-            className="bg-white font-black text-black w-8 h-8 sm:w-6 sm:h-6 md:w-[10rem] md:h-8 lg:w-[20rem] lg:h-[4rem] p-2 rounded mt-2"
+            className="bg-white font-black w-8 h-8 sm:w-6 sm:h-6 md:w-[14rem] md:h-8 lg:w-[20rem] lg:h-[4rem] p-2 rounded mt-2"
           >
-            Más destinos (Transbordo)
+            <span className="font-bold text-black text-2xl sm:text-sm md:text-sm lg:text-2xl text-center mb-24 py-2">Más destinos (Transbordo)</span>
           </button>
         )}
       </div>

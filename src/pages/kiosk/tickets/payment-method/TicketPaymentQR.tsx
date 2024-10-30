@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 import NavigatorTop from "@/components/NavigatorTop";
-import { ArrowIcon, CardIcon, MoneyIcon, QRicon } from "@/assets/icons";
+import { ArrowIcon, ArrowIconR, CardIcon, MoneyIcon, QRicon } from "@/assets/icons";
 // import useFetch from "@/hook/useFetch";
 import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
@@ -13,11 +13,10 @@ interface Method {
 
 const TicketPaymentQR = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Usar useNavigate para la navegación
+  const navigate = useNavigate();
   
-  // const { counts, destination, line, origin, pricesMap, transfer, transfer_end_line, transfer_station} = location.state || {};
-  const ticketData = location.state;
-  console.log(location)
+  const ticketData = location.state || JSON.parse(localStorage.getItem("ticketData"));
+  console.log(ticketData);
   // respuesta Hipotetica guardada en objeto de una API
   const metodos2= {methods:[
         {
@@ -41,7 +40,25 @@ const TicketPaymentQR = () => {
 
   // const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
 
+  const totalAmount = Object.keys(ticketData.counts).reduce((total, ticketType) => {
+    const count = ticketData.counts[ticketType] || 0;
+    const price = ticketData.pricesMap[ticketType] || 0;
+    return total + count * price;
+  }, 0);
   
+  const handlePayment = () => {
+    navigate('/kiosk/ticket-payment/paymentQR', {
+      state: {
+        monto: totalAmount.toFixed(2),
+        start_station: ticketData.origin,
+        end_station: ticketData.destination
+      }
+    });
+  };
+
+  const handleReturn = () => {
+    navigate(`/kiosk/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
+  };
 
   <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">Comprar Ticket</h2>
   const columnsPay = [
@@ -58,7 +75,7 @@ const TicketPaymentQR = () => {
                 className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
                 height="h-[60px] sm:h-[50px] md:h-[70px] md:w-[300px] lg:h-[100px] lg:w-[800px] xl:h[100px] 4xl:h-[100px]"
                 borderColor="box-border border-black border-[10px]"
-                // onClick={handlePayment}
+                onClick={handlePayment}
               >
                 {MethodIcon && <MethodIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8" />}
                 <div className="flex-1 text-left">{method.method_name}</div>
@@ -66,6 +83,16 @@ const TicketPaymentQR = () => {
               </ButtonBase>
             );
           })}
+            <ButtonBase 
+              className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
+              height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
+              backgroundColor="bg-yellow-500"
+              borderColor="box-border border-black border-[10px]"
+              onClick={handleReturn}
+            >
+              <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8"/>
+              <div className="flex-1 text-left">Ticktes</div>
+            </ButtonBase>
         </div>
       ),
     },
