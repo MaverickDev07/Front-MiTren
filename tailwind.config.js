@@ -22,6 +22,7 @@ export default {
         "pattern-right": "url('/images/brand/pattern-right.webp')",
         "train": "url('/images/backgrounds/train.svg')",
         "circle": "url('/images/brand/circle.svg')",
+        "circle2": "url('/images/brand/circle2.svg')"
       },
       colors: {
         "mitren-primary": "#004195"

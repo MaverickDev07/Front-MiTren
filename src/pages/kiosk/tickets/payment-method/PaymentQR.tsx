@@ -12,7 +12,7 @@ const PaymentQR = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true); // Indicador de carga
   const [qrGenerated, setQrGenerated] = useState(false);
-  
+
   // Función para generar el código QR
     // const generateQR = useCallback(async () => {
     //   try {
@@ -119,7 +119,6 @@ const PaymentQR = () => {
     }
   }, [movimientoId, navigate]); // Dependencias
 
-  // Efecto para cargar el QR al montar el componente
   useEffect(() => {
     if (payQr.monto > 0 && !qrGenerated) {
       generateQR(); // Genera el QR solo una vez
@@ -134,24 +133,44 @@ const PaymentQR = () => {
   }, [payQr.monto, generateQR, checkPaymentStatus, qrGenerated]);
 
   return (
-    <div className="container flex flex-col gap-6 mx-auto pt-8 px-4 min-h-screen justify-center items-center">
+    <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop />
+        <NavigatorTop title='Comprar Ticket - QR'/>
       </div>
-      <div className="w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
-        <h2 className="font-bold text-3xl sm:text-4xl text-white uppercase mb-8">Escanea el código QR para pagar</h2>
-        {loading ? (
-          <p>Cargando QR...</p>
-        ) : (
-          <img src={qr} alt="Código QR" />
-        )}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <ButtonLink to="/linea/destination/tickets/" className="flex items-center">
+      <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
+      <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>
+      {/* Elemento en la parte inferior */}
+      <div className="fixed bottom-[100px] left-1/2 transform -translate-x-1/2 translate-y-1/4 bg-circle2 bg-cover
+      h-[25rem] w-[45rem] flex items-start justify-center pt-4 text-center">
+      {/* {loading ? (
+        <p>Cargando QR...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+          <div className="border-2 border-black p-6 bg-white rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-96 lg:w-96">
+            <img src={qr} alt="Código QR" />
+          </div>
+          <button>
           <span className="text-sm sm:text-base">Cancelar</span>
-        </ButtonLink>
+          </button>
+        </div>
+      )} */}
+      </div>
+      <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
+          <h2 className="font-bold text-3xl sm:text-4xl text-white uppercase mb-8">Lectura QR</h2>
+          <h2 className="font-bold text-3xl sm:text-4xl text-white uppercase mb-8">{payQr.monto} Bs</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+          <div className="border-2 border-black p-6 bg-white rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-96 lg:w-96">
+            <img src={qr} alt="Código QR" />
+          </div>
+          <button>
+          <span className="text-sm sm:text-base">Cancelar</span>
+          </button>
+        </div>
       </div>
     </div>
+    
   );
 };
 
 export default PaymentQR;
+

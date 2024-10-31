@@ -1,7 +1,12 @@
 import ButtonLink from "./ButtonLink";
 import { MenuIcon } from "@/assets/icons";
 
-const NavigatorTop = () => {
+// Define la interfaz para las props del componente
+interface NavigatorTopProps {
+  title?: string; // Propiedad opcional
+}
+
+const NavigatorTop: React.FC<NavigatorTopProps> = ({ title = "Comprar Ticket" }) => {
   return (
     <div className="flex justify-between items-center p-8">
       <div className="flex items-center justify-end ml-auto">
@@ -11,8 +16,9 @@ const NavigatorTop = () => {
         </ButtonLink>
       </div>
       <div className="flex items-center justify-center flex-grow">
+        {/* Muestra el título dinámico */}
         <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">
-          Comprar Ticket
+          {title}
         </h2>
       </div>
     </div>

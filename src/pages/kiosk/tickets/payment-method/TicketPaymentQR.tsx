@@ -122,7 +122,7 @@ const TicketPaymentQR = () => {
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-start items-center">
     <div className="w-full lg:px-20 xl:px-[101px]">
-      <NavigatorTop />
+      <NavigatorTop title="Comprar Ticket - Pagar"/>
     </div>
     <div className="container mx-auto p-8">
       <MultiColumnLayout columns={columnsPay} />
