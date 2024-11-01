@@ -10,7 +10,6 @@ interface Method {
   method_name: string;
 }
 
-
 const TicketPaymentQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,20 +17,11 @@ const TicketPaymentQR = () => {
   const ticketData = location.state || JSON.parse(localStorage.getItem("ticketData"));
   console.log(ticketData);
   // respuesta Hipotetica guardada en objeto de una API
-  const metodos2= {methods:[
-        {
-            "id": "66c9ec9bd4c202de9f5e1b34",
-            "method_name": "EFECTIVO"
-        },
-        {
-            "id": "66c9eca5d4c202de9f5e1b36",
-            "method_name": "TARJETA DÉBITO/CRÉDITO"
-        },
-        {
-            "id": "66c9ed1ed4c202de9f5e1b3a",
-            "method_name": "PAGOSQR"
-        }
-    ]}
+  const metodos2 = { methods: [
+    { id: "66c9ec9bd4c202de9f5e1b34", method_name: "EFECTIVO" },
+    { id: "66c9eca5d4c202de9f5e1b36", method_name: "TARJETA DÉBITO/CRÉDITO" },
+    { id: "66c9ed1ed4c202de9f5e1b3a", method_name: "PAGOSQR" }
+  ]};
     const iconMap = {
       "66c9ec9bd4c202de9f5e1b34": CardIcon,
       "66c9eca5d4c202de9f5e1b36": MoneyIcon,
@@ -46,8 +36,12 @@ const TicketPaymentQR = () => {
     return total + count * price;
   }, 0);
   
-  const handlePayment = () => {
-    navigate('/kiosk/ticket-payment/paymentQR', {
+  const handlePayment = (methodId: string) => {
+    let route = "/kiosk/ticket-payment/paymentQR";
+    if (methodId === "66c9ec9bd4c202de9f5e1b34") route = "/kiosk/ticket-payment/paymentMoney";
+    if (methodId === "66c9eca5d4c202de9f5e1b36") route = "/kiosk/ticket-payment/paymentCard";
+
+    navigate(route, {
       state: {
         monto: totalAmount.toFixed(2),
         start_station: ticketData.origin,
@@ -55,6 +49,7 @@ const TicketPaymentQR = () => {
       }
     });
   };
+  
 
   const handleReturn = () => {
     navigate(`/kiosk/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
@@ -75,7 +70,7 @@ const TicketPaymentQR = () => {
                 className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
                 height="h-[60px] sm:h-[50px] md:h-[70px] md:w-[300px] lg:h-[100px] lg:w-[800px] xl:h[100px] 4xl:h-[100px]"
                 borderColor="box-border border-black border-[10px]"
-                onClick={handlePayment}
+                onClick={() => handlePayment(method.id)}
               >
                 {MethodIcon && <MethodIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8" />}
                 <div className="flex-1 text-left">{method.method_name}</div>
@@ -121,13 +116,13 @@ const TicketPaymentQR = () => {
 
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-start items-center">
-    <div className="w-full lg:px-20 xl:px-[101px]">
-      <NavigatorTop title="Comprar Ticket - Pagar"/>
+      <div className="w-full lg:px-20 xl:px-[101px]">
+        <NavigatorTop title="Comprar Ticket - Pagar"/>
+      </div>
+      <div className="container mx-auto p-8">
+        <MultiColumnLayout columns={columnsPay} />
+      </div>
     </div>
-    <div className="container mx-auto p-8">
-      <MultiColumnLayout columns={columnsPay} />
-    </div>
-  </div>
   );
 }
 

@@ -32,7 +32,7 @@ const PaymentCard = () => {
           </div>
           <ButtonLink
             to="/kiosk/menu"
-            className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
+            className="bg-red-600 text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[60px]"
             backgroundColor="bg-red-600"
             borderColor="box-border border-black border-[10px]"
@@ -42,8 +42,7 @@ const PaymentCard = () => {
           </ButtonLink>
         </div>
       </div>
-    </div>
-    
+    </div> 
   );
 };
 
