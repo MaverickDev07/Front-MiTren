@@ -36,7 +36,6 @@ export default MapStation;
 //         "station_id": "67196ae491a3da2f4fe40ab1",
 //         "station_name": "KIÑILOMA"
 //     }
-
 // Precios con trasbordo
 //     "start_station": {
 //         "station_id": "66f1772472a5b99531fccea2",

@@ -1,18 +1,21 @@
 import React from 'react';
-import Header from '../components/Header';
 import QRScanner from '../components/QRScanner';
-import ScanButton from '../components/ScanButton';
+// import { useNavigate } from 'react-router';
 
 const MainScreen: React.FC = () => {
-  const handleScan = () => {
-    console.log("Iniciar escaneo...");
-  };
+  // const [qrImage, setQrImage] = useState<string | null>(null);
+  // const navigate = useNavigate();
+
+  // // const handleQrError = (image: string) => {
+  // //   setQrImage(image);
+  // //   navigate('/ticket-invalid', { state: { qrImage: image } });
+  // // };
 
   return (
-    <div className="min-h-screen bg-mitren-primary bg-doodle text-whitex flex flex-col items-center">
-      <Header title="Usuario VerificadorQR" />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-mitren-primary bg-doodle text-white">
+      <h1 className="text-2xl font-bold mb-6">Usuario VerificadorQR</h1>
       <QRScanner />
-      <ScanButton label="Escanear Ticket" onClick={handleScan} />
+      <h2 className="text-center text-lg font-bold mb-4">Enfoque el QR del ticket</h2>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../components/Header';
 import StatusBadge from '../components/StatusBadge';
 import TicketInfo from '../components/TicketInfo';
 import ScanButton from '../components/ScanButton';
@@ -17,8 +16,8 @@ const TicketExpired: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-700 text-white flex flex-col items-center">
-      <Header title="Usuario VerificadorQR" />
+    <div className="min-h-screen bg-mitren-primary bg-doodle text-white flex flex-col items-center">
+      <h1 className="text-2xl font-bold mb-6">Usuario VerificadorQR</h1>
       <StatusBadge status="expired" />
       <TicketInfo ticketData={ticketData} />
       <ScanButton label="Escanear Ticket" onClick={handleRetry} />

@@ -32,7 +32,6 @@ const TicketNumberPage = () => {
   : null;
 
   const { data: fetchedPriceData} = useFetch(apiEndpoint);
-  // Si hay un error, usar `price2` como fallback
   const prices = fetchedPriceData?.prices || [];
 
   const pricesMap = prices.reduce((map, price) => {
