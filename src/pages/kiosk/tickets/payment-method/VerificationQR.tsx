@@ -13,8 +13,6 @@ const VerificationQR = () => {
         <div className="flex flex-col items-center justify-center text-center">
             <h3 className="font-Inconsolata text-2xl sm:text-5xl text-white uppercase p-8">Transacción exitosa</h3>
             <Check className='sm:h-[13rem] sm:w-[13rem] lg:h-[20rem] lg:w-[20rem] text-emerald-500 p-10'/>
-          {/* <div className='text-center font-Inconsolata font-bold text-white text-[40px]'>
-          </div> */}
         </div>
         <h3 className="font-bold text-2xl sm:text-5xl text-white mt-8">Retire su ticket</h3>
         <Down className='sm:h-10 sm:w-10 lg:h-20 lg:w-20 text-white p-1'/>

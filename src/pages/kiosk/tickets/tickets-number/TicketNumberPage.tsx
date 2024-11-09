@@ -30,11 +30,11 @@ const TicketNumberPage = () => {
   const apiEndpoint = startStationId // && endStationId 
   ? `/v1/ticket_flow/step-3/${startStationId}/67196ae491a3da2f4fe40ab1` 
   : null;
-
+  console.log(itinerary)
   const { data: fetchedPriceData} = useFetch(apiEndpoint);
   const prices = fetchedPriceData?.prices || [];
 
-  const pricesMap = prices.reduce((map, price) => {
+  const pricesMap = prices.reduce((map:any, price:any) => {
     map[price.customer_type] = price.base_price;
     return map;
   }, {});
@@ -47,16 +47,16 @@ const TicketNumberPage = () => {
     }
   }, [location.state, counts, itinerary]);
 
-  const increment = (type) => {
-    setCounts((prev) => {
+  const increment = (type:any) => {
+    setCounts((prev:any) => {
       const updatedCounts = { ...prev, [type]: prev[type] + 1 };
       localStorage.setItem("ticketCounts", JSON.stringify(updatedCounts));
       return updatedCounts;
     });
   };
 
-  const decrement = (type) => {
-    setCounts((prev) => {
+  const decrement = (type:any) => {
+    setCounts((prev:any) => {
       const updatedCounts = { ...prev, [type]: Math.max(prev[type] - 1, 0) };
       localStorage.setItem("ticketCounts", JSON.stringify(updatedCounts));
       return updatedCounts;
@@ -86,7 +86,7 @@ const TicketNumberPage = () => {
       id: 'col1',
       content: (
         <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
-          {prices.map((price) => (
+          {prices.map((price:any) => (
             <TicketNumberItem
               key={price.id}
               count={counts[price.customer_type] || 0} 
@@ -99,7 +99,7 @@ const TicketNumberPage = () => {
           <ButtonLink 
             to='/kiosk/destination' 
             className="bg-white text-black flex items-center justify-between px-4 bg-red"
-            height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
+            height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-yellow-500"
             borderColor="box-border border-black border-[10px]"
           >
@@ -127,7 +127,7 @@ const TicketNumberPage = () => {
           }
           <ButtonBase
             className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
-            height="h-[60px] sm:h-[50px] md:h-[60px] md:w-[300px] lg:h-[60px] lg:w-[800px] xl:h[60px] 4xl:h-[60px]"
+            height="h-[60px] sm:h-[50px] md:h-[60px] md:w-[300px] lg:h-[60px] lg:w-[800px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-yellow-500"
             borderColor="box-border border-black border-[10px]"
             onClick={handlePayment} 

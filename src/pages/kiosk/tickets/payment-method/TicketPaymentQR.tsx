@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from "react-router";
 import NavigatorTop from "@/components/NavigatorTop";
 import { ArrowIcon, ArrowIconR, CardIcon, MoneyIcon, QRicon } from "@/assets/icons";
-// import useFetch from "@/hook/useFetch";
+import useFetch from "@/hook/useFetch";
 import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
 import Ticket from "../tickets-number/TicketResume";
+
 interface Method {
   id: string;
   method_name: string;
@@ -13,64 +14,73 @@ interface Method {
 const TicketPaymentQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const ticketData = location.state || JSON.parse(localStorage.getItem("ticketData"));
-  console.log(ticketData);
-  // respuesta Hipotetica guardada en objeto de una API
-  const metodos2 = { methods: [
-    { id: "66c9ec9bd4c202de9f5e1b34", method_name: "EFECTIVO" },
-    { id: "66c9eca5d4c202de9f5e1b36", method_name: "TARJETA DÉBITO/CRÉDITO" },
-    { id: "66c9ed1ed4c202de9f5e1b3a", method_name: "PAGOSQR" }
-  ]};
-    const iconMap = {
-      "66c9ec9bd4c202de9f5e1b34": CardIcon,
-      "66c9eca5d4c202de9f5e1b36": MoneyIcon,
-      "66c9ed1ed4c202de9f5e1b3a": QRicon,
-    };
 
-  // const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
+  const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
 
+  // Mapeo de íconos basado en el nombre de los métodos
+  const iconMap: { [key: string]: React.ElementType } = {
+    "EFECTIVO": CardIcon,
+    "TARJETA DÉBITO/CRÉDITO": MoneyIcon,
+    "PAGOSQR": QRicon,
+  };
+
+  // Calcular el monto total a pagar
   const totalAmount = Object.keys(ticketData.counts).reduce((total, ticketType) => {
     const count = ticketData.counts[ticketType] || 0;
     const price = ticketData.pricesMap[ticketType] || 0;
     return total + count * price;
   }, 0);
-  
-  const handlePayment = (methodId: string) => {
-    let route = "/kiosk/ticket-payment/paymentQR";
-    if (methodId === "66c9ec9bd4c202de9f5e1b34") route = "/kiosk/ticket-payment/paymentMoney";
-    if (methodId === "66c9eca5d4c202de9f5e1b36") route = "/kiosk/ticket-payment/paymentCard";
+
+  const handlePayment = (method: Method) => {
+    let route = "/kiosk/ticket-payment/paymentQR"; // Ruta predeterminada
+
+    // Definir la ruta según el nombre del método recibido
+    switch (method.method_name) {
+      case "EFECTIVO":
+        route = "/kiosk/ticket-payment/paymentMoney";
+        break;
+      case "TARJETA DÉBITO/CRÉDITO":
+        route = "/kiosk/ticket-payment/paymentCard";
+        break;
+      case "PQR":
+        route = "/kiosk/ticket-payment/paymentQR";
+        break;
+      default:
+        console.warn(`Método de pago no reconocido: ${method.method_name}`);
+    }
 
     navigate(route, {
       state: {
         monto: totalAmount.toFixed(2),
         start_station: ticketData.origin,
-        end_station: ticketData.destination
-      }
+        end_station: ticketData.destination,
+      },
     });
   };
-  
 
   const handleReturn = () => {
     navigate(`/kiosk/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
   };
 
-  <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">Comprar Ticket</h2>
   const columnsPay = [
     {
       id: "col1",
       content: (
         <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
           <h2 className="font-bold text-2xl sm:text-2xl lg:text-4xl text-white uppercase px-2">METODOS DE PAGO</h2>
-          {metodos2?.methods.map((method: Method) => {
-            const MethodIcon = iconMap[method.id]; // Obtiene el ícono basado en el id
+          {loading && <p>Cargando métodos de pago...</p>}
+          {error && <p>Error al cargar métodos de pago.</p>}
+          {!loading && !error && data?.methods?.map((method: Method) => {
+            const MethodIcon = iconMap[method.method_name] || QRicon;
             return (
               <ButtonBase
-                key={method.id} // Asegúrate de usar una key única
+                key={method.id}
                 className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
                 height="h-[60px] sm:h-[50px] md:h-[70px] md:w-[300px] lg:h-[100px] lg:w-[800px] xl:h[100px] 4xl:h-[100px]"
                 borderColor="box-border border-black border-[10px]"
-                onClick={() => handlePayment(method.id)}
+                onClick={() => handlePayment(method)}
               >
                 {MethodIcon && <MethodIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8" />}
                 <div className="flex-1 text-left">{method.method_name}</div>
@@ -78,16 +88,16 @@ const TicketPaymentQR = () => {
               </ButtonBase>
             );
           })}
-            <ButtonBase 
-              className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
-              height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]"
-              backgroundColor="bg-yellow-500"
-              borderColor="box-border border-black border-[10px]"
-              onClick={handleReturn}
-            >
-              <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8"/>
-              <div className="flex-1 text-left">Ticktes</div>
-            </ButtonBase>
+          <ButtonBase 
+            className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
+            height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[90px]"
+            backgroundColor="bg-yellow-500"
+            borderColor="box-border border-black border-[10px]"
+            onClick={handleReturn}
+          >
+            <ArrowIconR className="w-8 h-8 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-16 lg:h-8"/>
+            <div className="flex-1 text-left">Tickets</div>
+          </ButtonBase>
         </div>
       ),
     },
