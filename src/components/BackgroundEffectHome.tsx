@@ -8,11 +8,11 @@ const BackgroundEffectHome = ({
   return (
     <>
       <div className={cn(
-        "fixed top-0 -left-2 min-h-screen w-1/4 sm:w-48 md:w-64 bg-pattern-left bg-cover bg-right-bottom transition duration-75",
+        "fixed top-0 -left-2 min-h-screen w-1/4 sm:w-24 md:w-48 lg:w-64 4xl:w-64 bg-pattern-left bg-cover bg-right-bottom transition duration-75",
         unnotted ? 'animate-unnotted-decoration' : 'animate-notted-decoration-left'
       )}></div>
       <div className={cn(
-        "fixed top-0 -right-2 min-h-screen w-1/4 sm:w-48 md:w-64 bg-pattern-right bg-cover bg-left-bottom transition duration-75",
+        "fixed top-0 -right-2 min-h-screen w-1/4 sm:w-24 md:w-48 lg:w-64 4xl:w-64 bg-pattern-right bg-cover bg-left-bottom transition duration-75",
         unnotted ? 'animate-unnotted-decoration' : 'animate-notted-decoration-right'
       )}></div>
       {/* Elemento en la parte inferior */}
