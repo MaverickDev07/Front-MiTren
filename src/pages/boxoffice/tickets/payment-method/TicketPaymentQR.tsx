@@ -34,18 +34,18 @@ const TicketPaymentQR = () => {
   }, 0);
 
   const handlePayment = (method: Method) => {
-    let route = "/kiosk/ticket-payment/paymentQR"; // Ruta predeterminada
+    let route = "/boleteria/ticket-payment/paymentQR"; // Ruta predeterminada
 
     // Definir la ruta según el nombre del método recibido
     switch (method.method_name) {
       case "EFECTIVO":
-        route = "/kiosk/ticket-payment/paymentMoney";
+        route = "/boleteria/ticket-payment/paymentMoney";
         break;
       case "TARJETA DÉBITO/CRÉDITO":
-        route = "/kiosk/ticket-payment/paymentCard";
+        route = "/boleteria/ticket-payment/paymentCard";
         break;
       case "PQR":
-        route = "/kiosk/ticket-payment/paymentQR";
+        route = "/boleteria/ticket-payment/paymentQR";
         break;
       default:
         console.warn(`Método de pago no reconocido: ${method.method_name}`);
@@ -61,7 +61,7 @@ const TicketPaymentQR = () => {
   };
 
   const handleReturn = () => {
-    navigate(`/kiosk/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
+    navigate(`/boleteria/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
   };
 
   const columnsPay = [

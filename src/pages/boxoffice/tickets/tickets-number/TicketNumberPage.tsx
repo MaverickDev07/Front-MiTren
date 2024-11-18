@@ -76,7 +76,7 @@ const TicketNumberPage = () => {
       transfer_station: fetchedPriceData?.transfer_point.transfer_station,
     };
     localStorage.setItem("ticketData", JSON.stringify(ticketData));
-    navigate('/kiosk/ticket-payment', { state: ticketData });
+    navigate('/boleteria/ticket-payment', { state: ticketData });
   };
 
   const isPaymentDisabled = !Object.values(counts).some(count => count > 0);
@@ -97,7 +97,7 @@ const TicketNumberPage = () => {
             />
           ))}
           <ButtonLink 
-            to='/kiosk/destination' 
+            to='/boleteria/destination' 
             className="bg-white text-black flex items-center justify-between px-4 bg-red"
             height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-yellow-500"

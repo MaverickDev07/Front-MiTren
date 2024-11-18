@@ -21,7 +21,6 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
             ✕
           </button>
         </div>
-
         {/* Modal Body */}
         <div className="p-4">
           <form>

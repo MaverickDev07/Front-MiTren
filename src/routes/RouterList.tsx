@@ -6,6 +6,7 @@ import Login from "@/pages/Login";
 
 const KioskPage = lazy(() => import("@/pages/kiosk/KioskPage"));
 const AdminDashboard = lazy(() => import("@/pages/admin/AdminPage"));
+const BoleteriaDashboard = lazy(() => import("@/pages/boxoffice/boxoffice"));
 
 const RouterList = () => {
   return (
@@ -19,6 +20,7 @@ const RouterList = () => {
         <Route index element={<BoleteriaDashboard />} />
       </Route> */}
       <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+      <Route path="/boleteria/*" element={<BoleteriaDashboard />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )

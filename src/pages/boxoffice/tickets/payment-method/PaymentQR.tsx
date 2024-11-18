@@ -46,7 +46,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (statusData && statusData.Codigo === 0 && statusData.Data.estado === 'Completado') {
       localStorage.clear();
-      navigate('/kiosk/verificationQR');
+      navigate('/boleteria/verificationQR');
     }
   }, [statusData, navigate]);
 
@@ -75,7 +75,7 @@ const PaymentQR = () => {
             {error && <p className="text-red-600">{error}</p>}
           </div>
           <ButtonLink
-            to="/kiosk/menu"
+            to="/boleteria"
             className="bg-red-600 text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-red-600"

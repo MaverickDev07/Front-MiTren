@@ -61,7 +61,7 @@ const Ticket = ({ counts, pricesMap, origin, destination, line, transfer, transf
       )}
 
       {/* Mostrar el total solo en la página de pago */}
-      {location.pathname === '/kiosk/ticket-payment' && hasTickets && (
+      {location.pathname === '/boleteria/ticket-payment' && hasTickets && (
         <div className="mt-6 text-right font-bold sm:text-xs md:text-xl lg:text-2xl">
           <p>Total: {totalAmount.toFixed(2)} bs</p>
         </div>

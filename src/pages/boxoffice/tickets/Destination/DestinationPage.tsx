@@ -59,7 +59,7 @@ console.log(selectedLines)
     const updatedItinerary = [...itinerary, newDestination];
     setItinerary(updatedItinerary);
 
-    navigate(`/kiosk/destination/tickets/${kiosksDat.id}`, {
+    navigate(`/boleteria/destination/tickets/${kiosksDat.id}`, {
       state: {
         itinerary: updatedItinerary,
       },
@@ -82,7 +82,7 @@ console.log(selectedLines)
         <div className="flex items-center justify-start p-4 rounded-lg col-span-1">
           {linesData?.lines.map((line: Line) => (
             <ButtonLink
-              to={`/kiosk/destination/${line.id}`}
+              to={`/boleteria/destination/${line.id}`}
               key={line.id}
               onClick={() => {
                 setSelectedLines([line]); // Reemplazar con la línea seleccionada
@@ -158,7 +158,7 @@ console.log(selectedLines)
         <div className="container mx-auto px-6" style={{height: "115px"}}>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
             <div className="flex items-center justify-start rounded-lg col-span-1">
-              <ButtonLink to="/kiosk/menu" height="h-[60px] sm:h-[40px] md:h-[40px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]">
+              <ButtonLink to="/boleteria/menu" height="h-[60px] sm:h-[40px] md:h-[40px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]">
                 <MenuIcon className="w-8 h-8 sm:w-6 sm:h-6 md:w-4 md:h4 lg:w-8 lg:h-8" />
                 <span className="text-base sm:text-xs md:text-xs lg:text-lg ml-2">Menu</span>
               </ButtonLink>
