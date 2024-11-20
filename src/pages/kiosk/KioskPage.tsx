@@ -16,6 +16,10 @@ const PaymentQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/Paymen
 const VerificationQR = lazy(() => import("@/pages/kiosk/tickets/payment-method/VerificationQR"));
 const PaymentMoney = lazy(() => import("@/pages/kiosk/tickets/payment-method/PaymentMoney"));
 const PaymentCard = lazy(() => import("@/pages/kiosk/tickets/payment-method/PaymentCard"));
+const ReloadPage = lazy(() => import("@/pages/kiosk/NFC/reload/ReloadPage"));
+const CreditNFCPage = lazy(() => import("@/pages/kiosk/NFC/reload/CreditPage"));
+const RechargeCard = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/RechargeCard"))
+const NFCPayment = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/NFCPaymet"))
 
 const KioskPage = () => {
   return (
@@ -29,6 +33,10 @@ const KioskPage = () => {
       <Route path="/ticket-payment/paymentMoney/*" element={<SuspenseComponent><PaymentMoney /></SuspenseComponent>} />
       <Route path="/ticket-payment/paymentCard/*" element={<SuspenseComponent><PaymentCard /></SuspenseComponent>} />
       <Route path="/verificationQR/*" element={<DecorationLayout><SuspenseComponent><VerificationQR /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/reload/*" element={<DecorationLayout><SuspenseComponent><ReloadPage /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/creditNFC/*" element={<DecorationLayout><SuspenseComponent><CreditNFCPage /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/creditNFC/rechargeCard/*" element={<DecorationLayout><SuspenseComponent><RechargeCard /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/PaymentNFC/*" element={<DecorationLayout><SuspenseComponent><NFCPayment /></SuspenseComponent></DecorationLayout>} />
       <Route path="*" element={<NotmatchPage />} />
     </Routes>
   )

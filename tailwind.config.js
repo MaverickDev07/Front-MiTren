@@ -41,6 +41,7 @@ export default {
         '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
         '5xl': ['3rem', { lineHeight: '1' }],
+        '6xl': ['4.5rem', { lineHeight: '2' }],
       },
       container: {
         center: true,
