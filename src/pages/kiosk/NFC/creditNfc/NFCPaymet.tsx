@@ -4,7 +4,7 @@ import { ArrowIcon, ArrowIconR, CardIcon, MoneyIcon, QRicon } from "@/assets/ico
 import useFetch from "@/hook/useFetch";
 import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
-import NFC from "../creditNfc/NFCResume";
+import NFC from "./NFCResume";
 
 interface Method {
   id: string;
@@ -27,18 +27,18 @@ const NFCPayment = () => {
   };
 
   const handlePayment = (method: Method) => {
-    let route = "/boleteria/ticket-payment/paymentQR"; // Ruta predeterminada
+    let route = "/kiosk/PaymentNFC/paymentQR"; // Ruta predeterminada
 
     // Definir la ruta según el nombre del método recibido
     switch (method.method_name) {
       case "EFECTIVO":
-        route = "/boleteria/ticket-payment/paymentMoney";
+        route = "/kiosk/PaymentNFC/paymentMoney";
         break;
       case "TARJETA DÉBITO/CRÉDITO":
-        route = "/boleteria/ticket-payment/paymentCard";
+        route = "/kiosk/PaymentNFC/paymentCard";
         break;
       case "PQR":
-        route = "/boleteria/ticket-payment/paymentQR";
+        route = "/kiosk/PaymentNFC/paymentQR";
         break;
       default:
         console.warn(`Método de pago no reconocido: ${method.method_name}`);
@@ -59,7 +59,7 @@ const NFCPayment = () => {
     {
       id: "col1",
       content: (
-        <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
+        <div className="flex flex-col w-full gap-4 flex-shrink-1 p-2">
           <h2 className="font-bold text-2xl sm:text-2xl lg:text-4xl text-white uppercase px-2">METODOS DE PAGO</h2>
           {loading && <p>Cargando métodos de pago...</p>}
           {error && <p>Error al cargar métodos de pago.</p>}
@@ -68,7 +68,7 @@ const NFCPayment = () => {
             return (
               <ButtonBase
                 key={method.id}
-                className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-4"
+                className="bg-white text-black inline-flex justify-end items-center gap-4 px-6 mt-2"
                 height="h-[60px] sm:h-[50px] md:h-[70px] md:w-[300px] lg:h-[100px] lg:w-[800px] xl:h[100px] 4xl:h-[100px]"
                 borderColor="box-border border-black border-[10px]"
                 onClick={() => handlePayment(method)}
@@ -109,7 +109,7 @@ const NFCPayment = () => {
       <div className="w-full lg:px-20 xl:px-[101px]">
         <NavigatorTop title="Comprar Ticket - Pagar"/>
       </div>
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto p-6">
         <MultiColumnLayout columns={columnsPay} />
       </div>
     </div>

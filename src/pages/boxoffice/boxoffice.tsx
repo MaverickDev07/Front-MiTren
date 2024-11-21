@@ -15,6 +15,9 @@ const VerificationQR = lazy(() => import("../boxoffice/tickets/payment-method/Ve
 const PaymentMoney = lazy(() => import("../boxoffice/tickets/payment-method/PaymentMoney"));
 const PaymentCard = lazy(() => import("../boxoffice/tickets/payment-method/PaymentCard"));
 
+const MenuNFC = lazy(() => import("../boxoffice/home/MenuNFC"));
+const VerifiNFC = lazy(() => import("../boxoffice/NFC/Verify/VerifiNFC"));
+
 const boxoffice = () => {
   return (
     <Routes>
@@ -26,6 +29,8 @@ const boxoffice = () => {
       <Route path="/ticket-payment/paymentMoney/*" element={<SuspenseComponent><PaymentMoney /></SuspenseComponent>} />
       <Route path="/ticket-payment/paymentCard/*" element={<SuspenseComponent><PaymentCard /></SuspenseComponent>} />
       <Route path="/verificationQR/*" element={<DecorationLayout><SuspenseComponent><VerificationQR /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/NFC" element={<SuspenseComponent><MenuNFC /></SuspenseComponent>} />
+      <Route path="/Verify" element={<SuspenseComponent><VerifiNFC /></SuspenseComponent>} />
       <Route path="*" element={<NotmatchPage />} />
     </Routes>
   )

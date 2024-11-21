@@ -41,10 +41,10 @@ const RecargaForm: React.FC<RecargaFormProps> = ({ onSubmit, onMontoChange, init
         value={monto}
         onChange={(e) => handleMontoChange(e.target.value)}
         placeholder="Escribe el monto"
-        className="text-center sm:text-sm lg:text-2xl w-full max-w-md bg-white text-black py-2 px-4 rounded-lg mb-4 shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="text-center sm:text-sm lg:text-2xl w-full max-w-md bg-white text-black py-2 px-4 rounded-lg sm:mb-4 lg:mb-16 shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
 
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid grid-cols-3 gap-4 sm:mb-8 lg:mb-[12rem]">
         {[...Array(9).keys()].map((i) => (
           <ButtonBase
             key={i + 1}

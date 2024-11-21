@@ -95,7 +95,7 @@ const RechargeCard = () => {
           Saldo actual:...
         </p>
       )}
-      <label className="font-bold text-2xl sm:text-4xl text-white mb-4">
+      <label className="font-bold text-2xl sm:text-4xl text-white sm:mb-14 lg:mb-[10rem]">
         INSERTE EL MONTO A RECARGAR
       </label>
       <MultiColumnLayout columns={columns} />

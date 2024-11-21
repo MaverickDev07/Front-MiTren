@@ -38,7 +38,7 @@ const NFC = ({ montoRecargado }) => {
 
       {/* Mostrar el total solo en la página de pago */}
       {location.pathname === '/kiosk/PaymentNFC' && (
-        <div className="mt-6 text-right font-bold sm:text-xs md:text-xl lg:text-2xl">
+        <div className="md:mt-[5rem] lg:mt-[10rem] text-right font-bold sm:text-xs md:text-xl lg:text-2xl">
           <p>Total Recarga: {montoRecargado} bs</p>
         </div>
       )}

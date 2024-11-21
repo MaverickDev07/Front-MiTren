@@ -23,7 +23,7 @@ const NavigatorTop: React.FC<NavigatorTopProps> = ({
       </div>
       <div className="flex items-center justify-center flex-grow">
         {/* Muestra el título dinámico */}
-        <h2 className="font-bold text-2xl sm:text-4xl text-white uppercase">
+        <h2 className="font-bold text-2xl sm:text-4xl lg:text-5xl text-white uppercase">
           {title}
         </h2>
       </div>

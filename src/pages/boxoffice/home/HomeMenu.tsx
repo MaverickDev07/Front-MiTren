@@ -16,7 +16,7 @@ const HomeMenu = () => {
               <ButtonLink to="/boleteria/destination" className="bg-white w-full text-center">
                 COMPRAR TICKET
               </ButtonLink>
-              <ButtonLink to="" className="bg-white w-full text-center">
+              <ButtonLink to="/boleteria/NFC" className="bg-white w-full text-center">
                 TARJETA NFC
               </ButtonLink>
             </div>

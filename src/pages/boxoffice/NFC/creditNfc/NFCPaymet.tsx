@@ -4,7 +4,7 @@ import { ArrowIcon, ArrowIconR, CardIcon, MoneyIcon, QRicon } from "@/assets/ico
 import useFetch from "@/hook/useFetch";
 import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
-import NFC from "../creditNfc/NFCResume";
+import NFC from "./NFCResume";
 
 interface Method {
   id: string;
