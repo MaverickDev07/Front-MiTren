@@ -37,6 +37,9 @@ const KioskPage = () => {
       <Route path="/creditNFC/*" element={<DecorationLayout><SuspenseComponent><CreditNFCPage /></SuspenseComponent></DecorationLayout>} />
       <Route path="/creditNFC/rechargeCard/*" element={<DecorationLayout><SuspenseComponent><RechargeCard /></SuspenseComponent></DecorationLayout>} />
       <Route path="/PaymentNFC/*" element={<DecorationLayout><SuspenseComponent><NFCPayment /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/PaymentNFC/paymentQR/*" element={<SuspenseComponent><PaymentQR /></SuspenseComponent>} />
+      <Route path="/PaymentNFC/paymentMoney/*" element={<SuspenseComponent><PaymentMoney /></SuspenseComponent>} />
+      <Route path="/PaymentNFC/paymentCard/*" element={<SuspenseComponent><PaymentCard /></SuspenseComponent>} />
       <Route path="*" element={<NotmatchPage />} />
     </Routes>
   )
