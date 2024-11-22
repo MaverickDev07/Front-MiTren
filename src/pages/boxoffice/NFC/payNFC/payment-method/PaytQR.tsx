@@ -4,7 +4,7 @@ import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
 import useCreate from "@/hook/useCreate";
 
-const PaymentQR = () => {
+const PaytQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const payQr = location.state || {};
@@ -84,4 +84,4 @@ const PaymentQR = () => {
   );
 };
 
-export default PaymentQR;
+export default PaytQR;

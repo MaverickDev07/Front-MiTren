@@ -28,18 +28,18 @@ const NFCPay = () => {
   };
 
   const handlePayment = (method: Method) => {
-    let route = "/boleteria/payNFC/PayCardNFC/NFCPay/payQR"; // Ruta predeterminada
+    let route = "/boleteria/payNFC/payQR"; // Ruta predeterminada
 
     // Definir la ruta según el nombre del método recibido
     switch (method.method_name) {
       case "EFECTIVO":
-        route = "/boleteria/payNFC/PayCardNFC/NFCPay/payMoney";
+        route = "/boleteria/payNFC/payMoney";
         break;
       case "TARJETA DÉBITO/CRÉDITO":
-        route = "/boleteria/payNFC/PayCardNFC/NFCPay/payCard";
+        route = "/boleteria/payNFC/payCard";
         break;
       case "PQR":
-        route = "/boleteria/payNFC/PayCardNFC/NFCPay/payQR";
+        route = "/boleteria/payNFC/payQR";
         break;
       default:
         console.warn(`Método de pago no reconocido: ${method.method_name}`);

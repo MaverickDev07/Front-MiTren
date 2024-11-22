@@ -29,9 +29,9 @@ const PayPageNFC = lazy(() => import("./NFC/payNFC/PayPageNFC"));
 const PayCardNFC = lazy(() => import("./NFC/payNFC/PayCardNFC"));
 const NFCPay = lazy(() => import("./NFC/payNFC/NFCPay"));
 const VerificationPay = lazy(() => import("./NFC/payNFC/VerificationPay"));
-// const PaymentQRNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentQR"));
-// const PaymentMoneyNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentMoney"));
-// const PaymentCardNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentCard"));
+const PayQRNFC = lazy(() => import("./NFC/payNFC/payment-method/PaytQR"));
+const PayMoneyNFC = lazy(() => import("./NFC/payNFC/payment-method/PayMoney"));
+const PayCard = lazy(() => import("./NFC/payNFC/payment-method/PayCard"));
 
 // const ReloadPage = lazy(() => import("./NFC/reload/ReloadPage"));
 // const RechargeCard = lazy(() => import("./NFC/reload/RechargeCard"));
@@ -67,9 +67,9 @@ const boxoffice = () => {
       <Route path="/payNFC/*" element={<DecorationLayout><SuspenseComponent><PayPageNFC /></SuspenseComponent></DecorationLayout>} />
       <Route path="/payNFC/PayCardNFC/*" element={<DecorationLayout><SuspenseComponent><PayCardNFC /></SuspenseComponent></DecorationLayout>} />
       <Route path="/payNFC/PayCardNFC/NFCPay/*" element={<DecorationLayout><SuspenseComponent><NFCPay /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/payNFC/paymentQR/*" element={<SuspenseComponent><PaymentQRNFC /></SuspenseComponent>} />
-      <Route path="/payNFC/paymentMoney/*" element={<SuspenseComponent><PaymentMoneyNFC /></SuspenseComponent>} />
-      <Route path="/payNFC/paymentCard/*" element={<SuspenseComponent><PaymentCardNFC /></SuspenseComponent>} />
+      <Route path="/payNFC/payQR/*" element={<SuspenseComponent><PayQRNFC /></SuspenseComponent>} />
+      <Route path="/payNFC/payCard/*" element={<SuspenseComponent><PayCard /></SuspenseComponent>} />
+      <Route path="/payNFC/payMoney/*" element={<SuspenseComponent><PayMoneyNFC /></SuspenseComponent>} />
       <Route path="/VerificationPay/*" element={<DecorationLayout><SuspenseComponent><VerificationPay /></SuspenseComponent></DecorationLayout>} />
       
       {/* <Route path="/ReloadPage/*" element={<DecorationLayout><SuspenseComponent><ReloadPage /></SuspenseComponent></DecorationLayout>} />
