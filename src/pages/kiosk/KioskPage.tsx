@@ -18,8 +18,12 @@ const PaymentMoney = lazy(() => import("@/pages/kiosk/tickets/payment-method/Pay
 const PaymentCard = lazy(() => import("@/pages/kiosk/tickets/payment-method/PaymentCard"));
 const ReloadPage = lazy(() => import("@/pages/kiosk/NFC/reload/ReloadPage"));
 const CreditNFCPage = lazy(() => import("@/pages/kiosk/NFC/reload/CreditPage"));
-const RechargeCard = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/RechargeCard"))
-const NFCPayment = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/NFCPaymet"))
+const RechargeCard = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/RechargeCard"));
+const NFCPayment = lazy(()=> import("@/pages/kiosk/NFC/creditNfc/NFCPaymet"));
+const PaymentQRNFC = lazy(() => import("@/pages/kiosk/NFC/payment-method/PaymentQR"));
+const VerificationQRNFC = lazy(() => import("@/pages/kiosk/NFC/payment-method/VerificationQR"));
+const PaymentMoneyNFC = lazy(() => import("@/pages/kiosk/NFC/payment-method/PaymentMoney"));
+const PaymentCardNFC = lazy(() => import("@/pages/kiosk/NFC/payment-method/PaymentCard"))
 
 const KioskPage = () => {
   return (
@@ -37,9 +41,11 @@ const KioskPage = () => {
       <Route path="/creditNFC/*" element={<DecorationLayout><SuspenseComponent><CreditNFCPage /></SuspenseComponent></DecorationLayout>} />
       <Route path="/creditNFC/rechargeCard/*" element={<DecorationLayout><SuspenseComponent><RechargeCard /></SuspenseComponent></DecorationLayout>} />
       <Route path="/PaymentNFC/*" element={<DecorationLayout><SuspenseComponent><NFCPayment /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/PaymentNFC/paymentQR/*" element={<SuspenseComponent><PaymentQR /></SuspenseComponent>} />
-      <Route path="/PaymentNFC/paymentMoney/*" element={<SuspenseComponent><PaymentMoney /></SuspenseComponent>} />
-      <Route path="/PaymentNFC/paymentCard/*" element={<SuspenseComponent><PaymentCard /></SuspenseComponent>} />
+      <Route path="/PaymentNFC/paymentQR/*" element={<SuspenseComponent><PaymentQRNFC /></SuspenseComponent>} />
+      <Route path="/PaymentNFC/paymentMoney/*" element={<SuspenseComponent><PaymentMoneyNFC /></SuspenseComponent>} />
+      <Route path="/PaymentNFC/paymentCard/*" element={<SuspenseComponent><PaymentCardNFC /></SuspenseComponent>} />
+      <Route path="/VerificationQRNFC/*" element={<DecorationLayout><SuspenseComponent><VerificationQRNFC /></SuspenseComponent></DecorationLayout>} />
+
       <Route path="*" element={<NotmatchPage />} />
     </Routes>
   )

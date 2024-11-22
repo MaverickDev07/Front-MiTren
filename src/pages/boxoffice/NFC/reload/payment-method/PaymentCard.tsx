@@ -12,7 +12,7 @@ const PaymentCard = () => {
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='RECARGAR TARJETA NFC - QR'/>
+        <NavigatorTop title='VENTA TARJETA NFC -TARJETA' LinkTo='/boleteria'/>
       </div>
       <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
       <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>
@@ -28,7 +28,7 @@ const PaymentCard = () => {
             <img src={Card} alt="Código QR" className='h-[100%]' />
           </div>
           <ButtonLink
-            to="/kiosk/menu"
+            to="/boleteria"
             className="bg-red-600 text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[60px]"
             backgroundColor="bg-red-600"

@@ -17,13 +17,13 @@ const MenuNFC = () => {
                 <ButtonLink to="/boleteria/Verify" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   VERIFICAR SALDO
                 </ButtonLink>
-                <ButtonLink to="/boleteria/reload" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
+                <ButtonLink to="/boleteria/ReloadPage" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   RECARGAR TARJETA
                 </ButtonLink>
-                <ButtonLink to="/boleteria/" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
+                <ButtonLink to="/boleteria/payNFC" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   VENTA DE TARJETA NFC
                 </ButtonLink>
-                <ButtonLink to="" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
+                <ButtonLink to="/boleteria/recover" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   RECUPERACION DE TARJETA
                 </ButtonLink>
             </div>

@@ -1,9 +1,9 @@
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
-import Card from "@/assets/brand/card.svg";
+import NFC from "@/assets/brand/image.png";
 
 
-const ReloadPage = () => {
+const PayPageNFC = () => {
 
 
 
@@ -20,7 +20,7 @@ const ReloadPage = () => {
           <h2 className="font-bold md:text-3xl lg:text-5xl text-white uppercase mb-4">AL SENSOR</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-0 p-6 rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
-            <img src={Card} alt="tarjeta" className='h-[100%]' />
+            <img src={NFC} alt="tarjeta" className='h-[100%]' />
           </div>
           <ButtonLink
             to="/boleteria/NFC"
@@ -38,4 +38,4 @@ const ReloadPage = () => {
   );
 };
 
-export default ReloadPage;
+export default PayPageNFC;

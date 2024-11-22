@@ -25,7 +25,7 @@ const NFC: React.FC<NFCProps> = ({ montoRecargado }) => {
         {/* Detalle de la recarga */}
         <div className="flex justify-between sm:text-xs md:text-xs lg:text-2xl mb-4">
           <span>1</span>
-          <span>{montoRecargado.toFixed(2)} bs</span>
+          <span>{montoRecargado} bs</span>
           <span>20 bs</span>
         </div>
 
@@ -33,9 +33,9 @@ const NFC: React.FC<NFCProps> = ({ montoRecargado }) => {
       </div>
 
       {/* Mostrar el total si la ruta coincide */}
-      {location.pathname === "/kiosk/PaymentNFC" && (
+      {location.pathname === "/boleteria/PaymentNFC" && (
         <div className="md:mt-[5rem] lg:mt-[10rem] text-right font-bold sm:text-xs md:text-xl lg:text-2xl">
-          <p>Total Recarga: {montoRecargado.toFixed(2)} bs</p>
+          <p>Total Recarga: {montoRecargado} bs</p>
         </div>
       )}
     </div>

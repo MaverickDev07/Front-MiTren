@@ -20,9 +20,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (!qrGenerated) {
       generateQR({
-        monto: parseFloat(payQr.monto),
-        start_station: payQr.start_station,
-        end_station: payQr.end_station,
+        monto: parseFloat(payQr.monto)
       });
       setQrGenerated(true);
     }
@@ -30,10 +28,6 @@ const PaymentQR = () => {
 
   // Actualizar ID de movimiento cuando el QR se genera correctamente
   const movimientoId = data?.Data.movimiento_id;
-  // Función para limpiar
-  const handleClearLocalStorage = () => {
-    localStorage.clear();
-  };
 
   // Función para verificar el estado de pago
   const checkPaymentStatus = useCallback(() => {
@@ -46,7 +40,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (statusData && statusData.Codigo === 0 && statusData.Data.estado === 'Completado') {
       localStorage.clear();
-      navigate('/boleteria/verificationQR');
+      navigate('/boleteria/VerificationCheckNFC');
     }
   }, [statusData, navigate]);
 
@@ -59,7 +53,7 @@ const PaymentQR = () => {
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='RECARGAR TARJETA NFC - QR'/>
+        <NavigatorTop title='VENTA TAJETA NFC - QR'/>
       </div>
       <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
       <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>
@@ -80,7 +74,6 @@ const PaymentQR = () => {
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-red-600"
             borderColor="box-border border-black border-[10px]"
-            onClick={handleClearLocalStorage}
           >
             <div className="flex-1 text-center text-white md:text-2xl lg:text-4xl">Cancelar</div>
           </ButtonLink>

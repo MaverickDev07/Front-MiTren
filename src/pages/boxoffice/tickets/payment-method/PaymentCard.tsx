@@ -15,7 +15,7 @@ const PaymentCard = () => {
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='Comprar Ticket - QR'/>
+        <NavigatorTop title='RECARGAR TARJETA NFC - TARJETA'/>
       </div>
       <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
       <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>

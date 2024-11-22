@@ -20,9 +20,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (!qrGenerated) {
       generateQR({
-        monto: parseFloat(payQr.monto),
-        start_station: payQr.start_station,
-        end_station: payQr.end_station,
+        monto: parseFloat(payQr.monto)
       });
       setQrGenerated(true);
     }
@@ -42,7 +40,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (statusData && statusData.Codigo === 0 && statusData.Data.estado === 'Completado') {
       localStorage.clear();
-      navigate('/kiosk/verificationQR');
+      navigate('/boleteria/VerificationCheckNFC');
     }
   }, [statusData, navigate]);
 
@@ -55,7 +53,7 @@ const PaymentQR = () => {
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='Comprar Ticket - QR'/>
+        <NavigatorTop title='VENTA TAJETA NFC - QR'/>
       </div>
       <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
       <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>
@@ -64,14 +62,14 @@ const PaymentQR = () => {
       </div>
       <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
           <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">Lectura QR</h2>
-          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr} Bs</h2>
+          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr.monto} Bs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-2 border-black p-6 bg-white rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
             {loading ? <p>Cargando QR...</p> : <img src={`data:image/png;base64,${data?.Data.qr}`} alt="Código QR" className="h-full" />}
             {error && <p className="text-red-600">{error}</p>}
           </div>
           <ButtonLink
-            to="/kiosk/menu"
+            to="/boleteria"
             className="bg-red-600 text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-red-600"

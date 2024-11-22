@@ -12,7 +12,7 @@ const PaymentMoney = () => {
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='Comprar Ticket - QR'/>
+        <NavigatorTop title='RECARGAR TARJETA NFC - QR'/>
       </div>
       <div className="fixed top-0 -left-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-left bg-cover bg-right-bottom transition duration-75"></div>
       <div className="fixed top-0 -right-2 min-h-screen xs:w-[2rem] sm:w-[3rem] md:w-[3rem] lg:w-[4rem] bg-pattern-right bg-cover bg-left-bottom transition duration-75"></div>
@@ -22,7 +22,7 @@ const PaymentMoney = () => {
       </div>
       <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
           <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">Insterte Efectivo</h2>
-          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr} Bs</h2>
+          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr.monto} Bs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-0 p-6 rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
             <img src={Money} alt="Código QR" className='h-[100%]' />
