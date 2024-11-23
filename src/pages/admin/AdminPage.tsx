@@ -7,6 +7,10 @@ const Dashboard = lazy(() => import("./dashboard/Dashboard"));
 const Frases = lazy(() => import("@/pages/admin/frases/Frases"));
 const Tarjeta = lazy(() => import("@/pages/admin/tarjeta/Tarjeta"));
 const Usuario = lazy(() => import("@/pages/admin/usuario/Usuario"));
+const Linea = lazy(() => import("@/pages/admin/lineas/Lineas"));
+const Categoria = lazy(() => import("@/pages/admin/categorias/Categorias"));
+const Estaciones = lazy(() => import("@/pages/admin/estaciones/Estaciones"));
+const Dispositivos = lazy(() => import("@/pages/admin/dispositivos/Dispositivos"));
 
 const AdminPage = () => {
   return (
@@ -25,7 +29,10 @@ const AdminPage = () => {
               <Route path="/tarjetas" element={<Tarjeta />} />
               <Route path="/promociones" element={<Promociones />} />
               <Route path="/usuarios" element={<Usuario />} />
-              
+              <Route path="/lineas" element={<Linea />} />
+              <Route path="/categorias" element={<Categoria />} />
+              <Route path="/estaciones" element={<Estaciones />} />
+              <Route path="/dispositivos" element={<Dispositivos />} />
             </Routes>
           </Suspense>
         </div>

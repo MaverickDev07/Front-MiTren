@@ -1,34 +1,35 @@
 import { FC, useEffect, useState } from "react";
 
-interface AddPromocionModalProps {
+interface AddEstacionesModalProps {
   isOpen: boolean;
   onClose: () => void;
-  promocion?: { name: string; price: string; description: string; lines: string[] };
+  estacion?: { name: string; coordenada: string; trasbordo: string; lines: string[] };
 }
 
-const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promocion }) => {
+const AddEstacionesModal: FC<AddEstacionesModalProps> = ({ isOpen, onClose, estacion }) => {
   const [selectedLines, setSelectedLines] = useState<string[]>([]);
   const [promotionData, setPromotionData] = useState({
     name: "",
-    price: "",
-    description: "",
+    coordenada: "",
+    trasbordo: "",
   });
 
-  // Efecto para cargar la promoción seleccionada cuando se abra el modal
+  // Efecto para cargar la estación seleccionada cuando se abra el modal
   useEffect(() => {
-    if (promocion) {
+    if (estacion) {
+      console.log("Trasbordo recibido:", estacion.trasbordo); // Depuración para verificar el valor
       setPromotionData({
-        name: promocion.name,
-        price: promocion.price,
-        description: promocion.description,
+        name: estacion.name,
+        coordenada: estacion.coordenada,
+        trasbordo: estacion.trasbordo?.toLowerCase() || "", // Normalizar el valor de trasbordo
       });
-      setSelectedLines(promocion.lines || []);
+      setSelectedLines(estacion.lines || []);
     } else {
-      // Resetear los campos si no hay promoción seleccionada (modo "nueva promoción")
-      setPromotionData({ name: "", price: "", description: "" });
+      // Resetear los campos si no hay estación seleccionada
+      setPromotionData({ name: "", trasbordo: "", coordenada: "" });
       setSelectedLines([]);
     }
-  }, [promocion]);
+  }, [estacion]);
 
   if (!isOpen) return null;
 
@@ -56,7 +57,7 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promoc
       <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">
-            {promocion ? "Editar promoción" : "Nueva promoción"}
+            {estacion ? "Editar estación" : "Nueva estación"}
           </h2>
           <button
             onClick={onClose}
@@ -67,10 +68,10 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promoc
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Nombre promoción */}
+          {/* Nombre estación */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1">
-              Nombre promoción
+              Nombre estación
             </label>
             <input
               id="name"
@@ -78,40 +79,43 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promoc
               type="text"
               value={promotionData.name}
               onChange={handleInputChange}
-              placeholder="Escribe el nombre de la promoción"
+              placeholder="Escribe el nombre de la estación"
               className="w-full border border-gray-400 rounded px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Precio promoción */}
+          {/* Coordenada */}
           <div>
-            <label htmlFor="price" className="block text-sm font-medium mb-1">
-              Precio promoción Bs.
+            <label htmlFor="coordenada" className="block text-sm font-medium mb-1">
+              Coordenada
             </label>
             <input
-              id="price"
-              name="price"
+              id="coordenada"
+              name="coordenada"
               type="text"
-              value={promotionData.price}
+              value={promotionData.coordenada}
               onChange={handleInputChange}
-              placeholder="Escribe el precio"
+              placeholder="Escribe la coordenada"
               className="w-full border border-gray-400 rounded px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Descripción */}
+          {/* Trasbordo */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium mb-1">
-              Descripción
+            <label htmlFor="trasbordo" className="block text-sm font-medium mb-1">
+              Trasbordo
             </label>
-            <textarea
-              id="description"
-              name="description"
-              value={promotionData.description}
-              onChange={handleInputChange}
-              placeholder="Escribe una descripción"
+            <select
+              id="trasbordo"
+              name="trasbordo"
+              value={promotionData.trasbordo}
+              onChange={(e) => setPromotionData({ ...promotionData, trasbordo: e.target.value })}
               className="w-full border border-gray-400 rounded px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="sí">Sí</option>
+              <option value="no">No</option>
+            </select>
           </div>
 
           {/* Líneas participantes */}
@@ -155,7 +159,7 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promoc
             </div>
           </div>
 
-          {/* Botón Guardar */}
+          {/* Botón guardar */}
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
@@ -168,4 +172,4 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promoc
   );
 };
 
-export default AddPromocionModal;
+export default AddEstacionesModal;
