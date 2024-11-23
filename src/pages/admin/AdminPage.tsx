@@ -5,6 +5,8 @@ import Sidebar from "./dashboard/Sidebar";
 
 const Dashboard = lazy(() => import("./dashboard/Dashboard"));
 const Frases = lazy(() => import("@/pages/admin/frases/Frases"));
+const Tarjeta = lazy(() => import("@/pages/admin/tarjeta/Tarjeta"));
+const Usuario = lazy(() => import("@/pages/admin/usuario/Usuario"));
 
 const AdminPage = () => {
   return (
@@ -20,7 +22,10 @@ const AdminPage = () => {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/frases" element={<Frases />} />
+              <Route path="/tarjetas" element={<Tarjeta />} />
               <Route path="/promociones" element={<Promociones />} />
+              <Route path="/usuarios" element={<Usuario />} />
+              
             </Routes>
           </Suspense>
         </div>

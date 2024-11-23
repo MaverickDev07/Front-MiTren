@@ -1,13 +1,22 @@
 import { useState } from "react";
-import Header from "../dashboard/Header.tsx";
-import PromocionesTable from "./PromocionesTable.tsx";
-import AddPromocionModal from "./AddPromocionModal.tsx";
+import AddPromocionModal from "./AddPromocionModal";
+import PromocionesTable from "./PromocionesTable";
+import Header from "../dashboard/Header";
 
 const Promociones = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [promocion, setPromocion] = useState(null);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  console.log(promocion)
+  const openModal = (promocion = null) => {
+    setPromocion(promocion); // Guardar la promoción seleccionada
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setPromocion(null); // Limpiar la promoción seleccionada
+    setModalOpen(false);
+  };
 
   return (
     <div className="p-6 bg-gray-100 h-screen">
@@ -18,9 +27,9 @@ const Promociones = () => {
           <div className="flex items-center space-x-2">
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              onClick={openModal}
+              onClick={() => openModal()} // Abrir modal vacío para nueva promoción
             >
-              Nueva promocion
+              Nueva promoción
             </button>
             <input
               type="text"
@@ -29,11 +38,15 @@ const Promociones = () => {
             />
           </div>
         </div>
-        <PromocionesTable />
+        <PromocionesTable onEdit={openModal} />
       </div>
 
       {/* Modal */}
-      <AddPromocionModal isOpen={isModalOpen} onClose={closeModal} />
+      <AddPromocionModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        promocion={promocion}
+      />
     </div>
   );
 };

@@ -1,11 +1,30 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 
 interface AddFraseModalProps {
   isOpen: boolean;
   onClose: () => void;
+  frase?: { id: number; texto: string; estado: string } | null;
 }
 
-const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
+const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, frase }) => {
+  const [texto, setTexto] = useState("");
+  const [estado, setEstado] = useState("activo");
+
+  useEffect(() => {
+    if (frase) {
+      setTexto(frase.texto);
+      setEstado(frase.estado);
+    } else {
+      setTexto("");
+      setEstado("activo");
+    }
+  }, [frase]);
+
+  const handleSave = () => {
+    console.log({ texto, estado });
+    onClose(); // Cierra el modal después de guardar
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -13,7 +32,9 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-lg shadow-lg max-w-lg w-full mx-4">
         {/* Modal Header */}
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-lg font-bold">Nueva Frase Institucional</h2>
+          <h2 className="text-lg font-bold">
+            {frase ? "Editar Frase Institucional" : "Nueva Frase Institucional"}
+          </h2>
           <button
             className="text-gray-500 hover:text-gray-700"
             onClick={onClose}
@@ -21,7 +42,6 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
             ✕
           </button>
         </div>
-        {/* Modal Body */}
         <div className="p-4">
           <form>
             <div className="mb-4">
@@ -34,11 +54,12 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
               <input
                 id="frase"
                 type="text"
+                value={texto}
+                onChange={(e) => setTexto(e.target.value)}
                 placeholder="Escribe una frase..."
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               />
             </div>
-
             <div className="mb-4">
               <label
                 htmlFor="estado"
@@ -48,6 +69,8 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
               </label>
               <select
                 id="estado"
+                value={estado}
+                onChange={(e) => setEstado(e.target.value)}
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               >
                 <option value="activo">Activo</option>
@@ -56,7 +79,8 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             <button
-              type="submit"
+              type="button"
+              onClick={handleSave}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
             >
               Guardar

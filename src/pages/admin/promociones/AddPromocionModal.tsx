@@ -1,17 +1,34 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface AddPromocionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  promocion?: { name: string; price: string; description: string; lines: string[] }; // Cambia según los datos reales
 }
 
-const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
+const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose, promocion }) => {
   const [selectedLines, setSelectedLines] = useState<string[]>([]);
   const [promotionData, setPromotionData] = useState({
     name: "",
     price: "",
     description: "",
   });
+
+  // Efecto para cargar la promoción seleccionada cuando se abra el modal
+  useEffect(() => {
+    if (promocion) {
+      setPromotionData({
+        name: promocion.name,
+        price: promocion.price,
+        description: promocion.description,
+      });
+      setSelectedLines(promocion.lines || []);
+    } else {
+      // Resetear los campos si no hay promoción seleccionada (modo "nueva promoción")
+      setPromotionData({ name: "", price: "", description: "" });
+      setSelectedLines([]);
+    }
+  }, [promocion]);
 
   if (!isOpen) return null;
 
@@ -37,9 +54,10 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Nueva promoción</h2>
+          <h2 className="text-2xl font-bold">
+            {promocion ? "Editar promoción" : "Nueva promoción"}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-xl"
@@ -48,7 +66,6 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Nombre promoción */}
           <div>
@@ -84,10 +101,7 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
 
           {/* Descripción */}
           <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium mb-1"
-            >
+            <label htmlFor="description" className="block text-sm font-medium mb-1">
               Descripción
             </label>
             <textarea
@@ -102,10 +116,7 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
 
           {/* Líneas participantes */}
           <div>
-            <label
-              htmlFor="lines"
-              className="block text-sm font-medium mb-1"
-            >
+            <label htmlFor="lines" className="block text-sm font-medium mb-1">
               Líneas participantes
             </label>
             <div className="border border-gray-400 rounded px-4 py-2">
@@ -146,11 +157,11 @@ const AddPromocionModal: FC<AddPromocionModalProps> = ({ isOpen, onClose }) => {
 
           {/* Botón Guardar */}
           <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
-            >
-              Guardar
-            </button>
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+          >
+            Guardar
+          </button>
         </form>
       </div>
     </div>
