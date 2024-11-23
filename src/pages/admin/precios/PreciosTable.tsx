@@ -1,8 +1,23 @@
-const PreciosTable = ({ onEdit }) => {
-  const precios = [
-    { id: 1, name: "Las", station: 'rojo', station2: "verde" },
-    { id: 2, name: "cielo es azul",  station: 'rojo', station2: "verde" },
+import { useNavigate } from "react-router-dom";
+
+interface Precio {
+  id: number;
+  name: string;
+  station: string;
+  station2: string;
+}
+
+const PreciosTable: React.FC = () => {
+  const precios: Precio[] = [
+    { id: 1, name: "Línea Roja", station: "Estación antigua Cochabamba", station2: "Estación central San Antonio" },
+    { id: 2, name: "Línea Verde", station: "Estación central San Antonio", station2: "Estación antigua Cochabamba" },
   ];
+
+  const navigate = useNavigate();
+
+  const handlePreciosClick = (id: number) => {
+    navigate(`/admin-dashboard/precios/editar-precios/${id}`);
+  };
 
   return (
     <table className="w-full border-collapse">
@@ -10,8 +25,8 @@ const PreciosTable = ({ onEdit }) => {
         <tr>
           <th className="border-b p-2 text-left">N°</th>
           <th className="border-b p-2 text-left">Ruta</th>
-          <th className="border-b p-2 text-left">Estacion inicial</th>
-          <th className="border-b p-2 text-left">Estacion final</th>
+          <th className="border-b p-2 text-left">Estación inicial</th>
+          <th className="border-b p-2 text-left">Estación final</th>
           <th className="border-b p-2">Acción</th>
         </tr>
       </thead>
@@ -24,10 +39,10 @@ const PreciosTable = ({ onEdit }) => {
             <td className="border-b p-2">{precio.station2}</td>
             <td className="border-b p-2 text-center">
               <button
+                onClick={() => handlePreciosClick(precio.id)}
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"
-                onClick={() => onEdit(precio)}
               >
-                Editar
+                Precios
               </button>
             </td>
           </tr>
@@ -38,3 +53,4 @@ const PreciosTable = ({ onEdit }) => {
 };
 
 export default PreciosTable;
+

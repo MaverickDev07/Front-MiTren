@@ -11,8 +11,9 @@ const Linea = lazy(() => import("@/pages/admin/lineas/Lineas"));
 const Categoria = lazy(() => import("@/pages/admin/categorias/Categorias"));
 const Estaciones = lazy(() => import("@/pages/admin/estaciones/Estaciones"));
 const Dispositivos = lazy(() => import("@/pages/admin/dispositivos/Dispositivos"));
-const Precios = lazy(() => import("@/pages/admin/precios/Precios"));
 const Rutas = lazy(() => import("@/pages/admin/rutas/Rutas"));
+const Precios = lazy(() => import("@/pages/admin/precios/Precios"));
+const EditarPrecios = lazy(() => import("@/pages/admin/precios/EditarPrecios"));
 
 const AdminPage = () => {
   return (
@@ -37,6 +38,7 @@ const AdminPage = () => {
               <Route path="/dispositivos" element={<Dispositivos />} />
               <Route path="/rutas" element={<Rutas />} />
               <Route path="/precios" element={<Precios />} />
+              <Route path="/precios/editar-precios/:id" element={<EditarPrecios />} />
             </Routes>
           </Suspense>
         </div>

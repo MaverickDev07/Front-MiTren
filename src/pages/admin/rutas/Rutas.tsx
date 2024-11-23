@@ -1,20 +1,18 @@
 import { useState } from "react";
 import Header from "../dashboard/Header.tsx";
-import RutasTable from "./CategoriasTable.tsx";
+import RutasTable from "./RutasTable.tsx";
 import { Search } from "lucide-react";
+import OrdenarEstacionesModal from "./OrdenarEstacionesModal.tsx";
 
 const Rutas = () => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [categorias, setCategorias] = useState(null);
 
-  const openModal = (categoria = null) => {
-    setCategorias(categoria);
+  const openModal = () => {
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setCategorias(null);
   };
 
   return (
@@ -26,7 +24,7 @@ const Rutas = () => {
           <div className="flex items-center space-x-2">
             <button
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              onClick={() => openModal()}
+              onClick={openModal}
             >
               Nuevo
             </button>
@@ -40,11 +38,16 @@ const Rutas = () => {
             </div>
           </div>
         </div>
-        <RutasTable onEdit={openModal} />
+        <RutasTable />
       </div>
+
+      {isModalOpen && (
+        <OrdenarEstacionesModal onClose={closeModal} />
+      )}
     </div>
   );
 };
 
 export default Rutas;
+
 
