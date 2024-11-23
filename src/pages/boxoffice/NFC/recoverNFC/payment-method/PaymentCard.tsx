@@ -6,8 +6,7 @@ import Card from "@/assets/brand/card.svg";
 
 const PaymentCard = () => {
   const location = useLocation();
-  const payQr = location.state || {};
-  console.log(payQr)
+  const payCard = location.state.data || {};
 
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
@@ -22,7 +21,7 @@ const PaymentCard = () => {
       </div>
       <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
           <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">Acerque su tarjeta Debito o credito</h2>
-          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr.monto} Bs</h2>
+          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payCard.Costo} Bs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-0 p-6 rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
             <img src={Card} alt="Código QR" className='h-[100%]' />

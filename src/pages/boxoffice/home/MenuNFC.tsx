@@ -23,7 +23,7 @@ const MenuNFC = () => {
                 <ButtonLink to="/boleteria/payNFC" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   VENTA DE TARJETA NFC
                 </ButtonLink>
-                <ButtonLink to="/boleteria/recover" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
+                <ButtonLink to="/boleteria/RecoverCardNFC" className="bg-white w-full text-center" height = "h-[60px] md:h-[50px] lg:h-[80px] 4xl:h-[100px]">
                   RECUPERACION DE TARJETA
                 </ButtonLink>
             </div>

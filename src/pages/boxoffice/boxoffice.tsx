@@ -33,13 +33,13 @@ const PayQRNFC = lazy(() => import("./NFC/payNFC/payment-method/PaytQR"));
 const PayMoneyNFC = lazy(() => import("./NFC/payNFC/payment-method/PayMoney"));
 const PayCard = lazy(() => import("./NFC/payNFC/payment-method/PayCard"));
 
-// const ReloadPage = lazy(() => import("./NFC/reload/ReloadPage"));
-// const RechargeCard = lazy(() => import("./NFC/reload/RechargeCard"));
-// const NFCPayment = lazy(() => import("./NFC/reload/NFCPaymet"));
-// const VerificationCheckNFC = lazy(() => import("./NFC/reload/VerificationCheck"));
-// const PaymentQRNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentQR"));
-// const PaymentMoneyNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentMoney"));
-// const PaymentCardNFC = lazy(() => import("../boxoffice/NFC/payment-method/PaymentCard"));
+const RecoverCardNFC = lazy(() => import("./NFC/recoverNFC/RecoverCardNFC"));
+const RecoverPage = lazy(() => import("./NFC/recoverNFC/RecoverPage"));
+const RecoverPay = lazy(() => import("./NFC/recoverNFC/RecoverPay"));
+const VerificationRecover = lazy(() => import("./NFC/recoverNFC/VerificationCheck"));
+const PaymQRRecover = lazy(() => import("./NFC/recoverNFC/payment-method/PaymentQR"));
+const PayMoneyRecover = lazy(() => import("./NFC/recoverNFC/payment-method/PaymentMoney"));
+const PayCardRecover = lazy(() => import("./NFC/recoverNFC/payment-method/PaymentCard"));
 
 
 const boxoffice = () => {
@@ -72,13 +72,13 @@ const boxoffice = () => {
       <Route path="/payNFC/payMoney/*" element={<SuspenseComponent><PayMoneyNFC /></SuspenseComponent>} />
       <Route path="/VerificationPay/*" element={<DecorationLayout><SuspenseComponent><VerificationPay /></SuspenseComponent></DecorationLayout>} />
       
-      {/* <Route path="/ReloadPage/*" element={<DecorationLayout><SuspenseComponent><ReloadPage /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/ReloadPage/rechargeCard/*" element={<DecorationLayout><SuspenseComponent><RechargeCard /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/PaymentNFC/*" element={<DecorationLayout><SuspenseComponent><NFCPayment /></SuspenseComponent></DecorationLayout>} />
-      <Route path="/PaymentNFC/paymentQR/*" element={<SuspenseComponent><PaymentQRNFC /></SuspenseComponent>} />
-      <Route path="/PaymentNFC/paymentMoney/*" element={<SuspenseComponent><PaymentMoneyNFC /></SuspenseComponent>} />
-      <Route path="/PaymentNFC/paymentCard/*" element={<SuspenseComponent><PaymentCardNFC /></SuspenseComponent>} />
-      <Route path="/VerificationCheckNFC/*" element={<DecorationLayout><SuspenseComponent><VerificationCheckNFC /></SuspenseComponent></DecorationLayout>} /> */}
+      <Route path="/RecoverCardNFC/*" element={<DecorationLayout><SuspenseComponent><RecoverCardNFC /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/RecoverCardNFC/RecoverPage/*" element={<DecorationLayout><SuspenseComponent><RecoverPage /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/RecoverCardNFC/RecoverPage/RecoverPay/*" element={<DecorationLayout><SuspenseComponent><RecoverPay /></SuspenseComponent></DecorationLayout>} />
+      <Route path="/RecoverCardNFC/RecoverPage/RecoverPay/paymentQR/*" element={<SuspenseComponent><PaymQRRecover /></SuspenseComponent>} />
+      <Route path="/RecoverCardNFC/RecoverPage/RecoverPay/paymentMoney/*" element={<SuspenseComponent><PayMoneyRecover /></SuspenseComponent>} />
+      <Route path="/RecoverCardNFC/RecoverPage/RecoverPay/paymentCard/*" element={<SuspenseComponent><PayCardRecover /></SuspenseComponent>} />
+      <Route path="/RecoverCardNFC/RecoverPage/VerificationCheckNFC/*" element={<DecorationLayout><SuspenseComponent><VerificationRecover /></SuspenseComponent></DecorationLayout>} />
       
       <Route path="*" element={<NotmatchPage />} />
     </Routes>

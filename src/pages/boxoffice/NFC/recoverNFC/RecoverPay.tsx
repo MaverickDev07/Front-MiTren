@@ -11,11 +11,11 @@ interface Method {
   method_name: string;
 }
 
-const NFCPayment = () => {
+const RecoverPay = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const montoRecargado = location.state?.monto || 0;
+  const User = location.state;
 
   const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
 
@@ -27,18 +27,18 @@ const NFCPayment = () => {
   };
 
   const handlePayment = (method: Method) => {
-    let route = "/boleteria/PaymentNFC/paymentQR"; // Ruta predeterminada
+    let route = "/boleteria/RecoverCardNFC/RecoverPage/RecoverPay"; // Ruta predeterminada
 
     // Definir la ruta según el nombre del método recibido
     switch (method.method_name) {
       case "EFECTIVO":
-        route = "/boleteria/PaymentNFC/paymentMoney";
+        route = "/boleteria/RecoverCardNFC/RecoverPage/RecoverPay/paymentMoney";
         break;
       case "TARJETA DÉBITO/CRÉDITO":
-        route = "/boleteria/PaymentNFC/paymentCard";
+        route = "/boleteria/RecoverCardNFC/RecoverPage/RecoverPay/paymentCard";
         break;
       case "PQR":
-        route = "/boleteria/PaymentNFC/paymentQR";
+        route = "/boleteria/RecoverCardNFC/RecoverPage/RecoverPay/paymentQR";
         break;
       default:
         console.warn(`Método de pago no reconocido: ${method.method_name}`);
@@ -46,13 +46,13 @@ const NFCPayment = () => {
 
     navigate(route, {
       state: {
-        monto: montoRecargado,
+        data: User,
       },
     });
   };
 
   const handleReturn = () => {
-    navigate("/boleteria/ReloadPage/RechargeCard", { state: {monto:montoRecargado} });
+    navigate("/boleteria/RecoverCardNFC");
   };
 
   const columnsPay = [
@@ -97,7 +97,7 @@ const NFCPayment = () => {
       content: (
         <div className="w-full mt-1 lg:mt-0">
             <NFC 
-              montoRecargado={montoRecargado}
+              montoRecargado={User.Costo}
             />
         </div>
       ),
@@ -107,7 +107,7 @@ const NFCPayment = () => {
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-start items-center">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title="Comprar Ticket - Pagar" />
+        <NavigatorTop title="RECUPERAR TARJETA NFC - Pagar" LinkTo="/boleteria"/>
       </div>
       <div className="container mx-auto p-6">
         <MultiColumnLayout columns={columnsPay} />
@@ -116,4 +116,4 @@ const NFCPayment = () => {
   );
 }
 
-export default NFCPayment;
+export default RecoverPay;

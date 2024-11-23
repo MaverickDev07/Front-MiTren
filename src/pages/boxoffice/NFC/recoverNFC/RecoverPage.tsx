@@ -1,29 +1,29 @@
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
-import Card from "@/assets/brand/card.svg";
+import NFC from "@/assets/brand/image.png";
 
 
-const ReloadPage = () => {
+const PayPageNFC = () => {
 
 
 
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title='RECARGAR TARJETA NFC' LinkTo="/boleteria"/>
+        <NavigatorTop title='RECUPERAR TARJETA NFC' LinkTo="/boleteria"/>
       </div>
       <div className="fixed md:bottom-[100px] left-1/2 transform -translate-x-1/2 translate-y-1/4 bg-circle2 bg-cover
       md:h-[25rem] md:w-[45rem] lg:h-[70rem] lg:w-[130rem] flex items-start justify-end pt-4 text-center">
       </div>
       <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
-          <h2 className="font-bold md:text-3xl lg:text-5xl text-white uppercase mb-4">ACERQUE SU TARJETA</h2>
+          <h2 className="font-bold md:text-3xl lg:text-5xl text-white uppercase mb-4">ACERQUE SU TARJETA NFC</h2>
           <h2 className="font-bold md:text-3xl lg:text-5xl text-white uppercase mb-4">AL SENSOR</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-0 p-6 rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
-            <img src={Card} alt="tarjeta" className='h-[100%]' />
+            <img src={NFC} alt="tarjeta" className='h-[100%]' />
           </div>
           <ButtonLink
-            to="/boleteria/NFC"
+            to="/boleteria/RecoverCardNFC"
             className="bg-red-600 text-black inline-flex justify-end items-center gap-4 px-6 mt-4" 
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px]"
             backgroundColor="bg-red-600"
@@ -38,4 +38,4 @@ const ReloadPage = () => {
   );
 };
 
-export default ReloadPage;
+export default PayPageNFC;

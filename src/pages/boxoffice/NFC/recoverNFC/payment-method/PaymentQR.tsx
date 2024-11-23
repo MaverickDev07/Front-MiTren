@@ -7,7 +7,7 @@ import useCreate from "@/hook/useCreate";
 const PaymentQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const payQr = location.state || {};
+  const payQr = location.state.data || {};
   const [qrGenerated, setQrGenerated] = useState(false);
 
   // `useCreate` para generar el QR
@@ -20,7 +20,7 @@ const PaymentQR = () => {
   useEffect(() => {
     if (!qrGenerated) {
       generateQR({
-        monto: parseFloat(payQr.monto)
+        monto: parseFloat(payQr.Costo)
       });
       setQrGenerated(true);
     }
@@ -39,8 +39,7 @@ const PaymentQR = () => {
   // Redirige si el estado es "Completado"
   useEffect(() => {
     if (statusData && statusData.Codigo === 0 && statusData.Data.estado === 'Completado') {
-      localStorage.clear();
-      navigate('/boleteria/VerificationCheckNFC');
+      navigate('/boleteria/RecoverCardNFC/RecoverPage/VerificationCheckNFC',{ state: payQr });
     }
   }, [statusData, navigate]);
 
@@ -62,7 +61,7 @@ const PaymentQR = () => {
       </div>
       <div className="relative w-full lg:px-20 xl:px-[101px] flex flex-col items-center">
           <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">Lectura QR</h2>
-          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr.monto} Bs</h2>
+          <h2 className="font-bold text-3xl md:text-2xl lg:text-4xl text-white uppercase mb-4">{payQr.Costo} Bs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 justify-items-center">
           <div className="border-2 border-black p-6 bg-white rounded-[44px] sm:h-64 md:h-72 md:w-72 lg:h-[35rem] lg:w-[35rem] flex flex-col justify-center items-center">
             {loading ? <p>Cargando QR...</p> : <img src={`data:image/png;base64,${data?.Data.qr}`} alt="Código QR" className="h-full" />}

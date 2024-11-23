@@ -108,7 +108,7 @@ const NFCPay = () => {
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-start items-center">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <NavigatorTop title="VENTA TARJETA NFC - Pagar" />
+        <NavigatorTop title="VENTA TARJETA NFC - Pagar" LinkTo="/boleteria"/>
       </div>
       <div className="container mx-auto p-6">
         <MultiColumnLayout columns={columnsPay} />
