@@ -13,16 +13,16 @@ const QRScanner: React.FC = () => {
             if (!!result) {
               const scannedText = result.getText();
 
-              // Si el resultado no es válido, no hace nada
-              if (scannedText.startsWith("http") || scannedText.length > 10) { // Ajusta este criterio a lo que esperes de un QR
+              // Validar el resultado
+              if (scannedText.startsWith("http") || scannedText.length > 10) {
                 setQrResult(scannedText);
               } else {
-                // Ignora el resultado si no es un QR
                 setError("Escaneo no válido. Esperando código QR...");
               }
             }
 
             if (!!error) {
+              console.error("Error al leer el QR:", error);
               setError("Error al leer el QR");
             }
           }}
