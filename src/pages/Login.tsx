@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "@/context/AuthContext";
 
 interface DecodedToken {
   id: string;
@@ -22,6 +23,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,12 +47,9 @@ const Login: React.FC = () => {
       if (!token) {
         throw new Error("No se recibió el token de autenticación.");
       }
-
+      
       const decodedToken: DecodedToken = jwtDecode(token);
-
-      sessionStorage.setItem("token", token);
-      sessionStorage.setItem("role", decodedToken.role_name);
-
+      setAuth(token, decodedToken.role_name);
       if (decodedToken.role_name === "ADMIN") {
         navigate("/admin-dashboard");
       } else if (decodedToken.role_name === "BOLETERIA") {

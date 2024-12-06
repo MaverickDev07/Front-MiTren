@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { fetchData } from '@/services/apiService';
+import { useState, useEffect } from "react";
+import { fetchData } from "@/services/apiService";
 
-const useFetch = <T>(endpoint: string) => {
+const useFetch = <T>(endpoint: string, token?: string) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,7 +10,7 @@ const useFetch = <T>(endpoint: string) => {
     const getData = async () => {
       try {
         setLoading(true);
-        const result = await fetchData(endpoint);
+        const result = await fetchData(endpoint, token);
         setData(result);
       } catch (error: any) {
         setError(error.message);
@@ -20,10 +20,8 @@ const useFetch = <T>(endpoint: string) => {
     };
 
     getData();
-  }, [endpoint]);
-
+  }, [endpoint, token]);
   return { data, loading, error };
 };
 
 export default useFetch;
-

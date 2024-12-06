@@ -22,7 +22,7 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, frase }) => {
 
   const handleSave = () => {
     console.log({ texto, estado });
-    onClose(); // Cierra el modal después de guardar
+    onClose();
   };
 
   if (!isOpen) return null;

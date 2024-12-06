@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
@@ -13,14 +14,16 @@ const ProtectedRoute = ({
   role: "ADMIN" | "BOLETERIA";
   children: JSX.Element;
 }) => {
-  const token = sessionStorage.getItem("token");
+  // const token = sessionStorage.getItem("token");
+  const {token: storetoken} = useAuth();
+  console.log(storetoken)
 
-  if (!token) {
+  if (!storetoken) {
     return <Navigate to="/login" />;
   }
 
   try {
-    const decodedToken: DecodedToken = jwtDecode(token);
+    const decodedToken: DecodedToken = jwtDecode(storetoken);
 
     if (Date.now() >= decodedToken.exp * 1000) {
       sessionStorage.clear();

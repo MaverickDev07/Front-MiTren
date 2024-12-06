@@ -1,45 +1,34 @@
-// AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { login as loginService } from "@/services/authService"; // Servicio de autenticación
+import { createContext, useContext, useState, ReactNode } from "react";
 
-interface AuthContextProps {
-  user: { role: string; token: string } | null;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+interface AuthContextType {
+  token: string | null;
+  role: "ADMIN" | "BOLETERIA" | null;
+  setAuth: (token: string, role: string) => void;
+  clearAuth: () => void;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<{ role: string; token: string } | null>(null);
-  const navigate = useNavigate();
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | null>(sessionStorage.getItem("token"));
+  const [role, setRole] = useState<"ADMIN" | "BOLETERIA" | null>(sessionStorage.getItem("role") as "ADMIN" | "BOLETERIA" | null);
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
-
-  const login = async (username: string, password: string) => {
-    try {
-      const { token, role } = await loginService(username, password);
-      const user = { role, token };
-      setUser(user);
-      sessionStorage.setItem("user", JSON.stringify(user));
-      navigate(role === "admin" ? "/admin/dashboard" : "/ticketing/dashboard");
-    } catch (error) {
-      console.error("Login error:", error);
-    }
+  const setAuth = (token: string, role: string) => {
+    sessionStorage.setItem("token", token);
+    sessionStorage.setItem("role", role);
+    setToken(token);
+    setRole(role);
   };
 
-  const logout = () => {
-    setUser(null);
-    sessionStorage.removeItem("user");
-    navigate("/");
+  const clearAuth = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+    setToken(null);
+    setRole(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ token, role, setAuth, clearAuth }}>
       {children}
     </AuthContext.Provider>
   );
@@ -47,6 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within an AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
   return context;
 };
