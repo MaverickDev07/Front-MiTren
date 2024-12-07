@@ -2,11 +2,13 @@ import { useState } from "react";
 import Header from "../dashboard/Header.tsx";
 import UsuarioTable from "./UsuarioTable.tsx";
 import AddUsuarioModal from "./AddUsuarioModal.tsx";
-import { Search } from "lucide-react";
+import SearchBar from "@/components/SearchBar.tsx";
 
 const Usuario = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [usuario, setUsuario] = useState(null);
+  const [reloadTable, setReloadTable] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openModal = (frase = null) => {
     setUsuario(frase);
@@ -16,6 +18,14 @@ const Usuario = () => {
   const closeModal = () => {
     setModalOpen(false);
     setUsuario(null);
+  };
+
+  const handleSuccess = () => {
+    setReloadTable(!reloadTable);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   return (
@@ -31,22 +41,20 @@ const Usuario = () => {
             >
               Nueva Usuario
             </button>
-            <div className="flex items-center space-x-2 bg-white rounded-lg px-4 py-2 mt-4">
-              <Search className="text-gray-500 ml-2" />
-              <input
-                type="text"
-                placeholder="Buscar"
-                className="w-full p-3 text-black px-4 py-2 border rounded text-sm outline-none"
-              />
-            </div>
+            <SearchBar onSearch={handleSearch} />
           </div>
         </div>
-        <UsuarioTable onEdit={openModal} />
+        <UsuarioTable 
+          onEdit={openModal}
+          reloadTable={reloadTable}
+          searchQuery={searchQuery}
+        />
       </div>
 
       <AddUsuarioModal
         isOpen={isModalOpen}
         onClose={closeModal}
+        onSuccess={handleSuccess}
         usuario={usuario}
       />
     </div>

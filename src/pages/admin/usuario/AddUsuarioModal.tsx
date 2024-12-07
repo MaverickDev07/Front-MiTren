@@ -1,51 +1,76 @@
+import { useAuth } from "@/context/AuthContext";
+import useCreate from "@/hook/useCreate";
+import useUpdate from "@/hook/useUpdate";
 import { Eye, EyeOff } from "lucide-react";
 import { FC, useState, useEffect } from "react";
 
-interface AddFraseModalProps {
+interface AddUsuarioModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
   usuario?: {
     id: number;
-    nombre: string;
-    documento: string;
+    fullname: string;
+    doc_number: string;
     password: string;
-    passwordConfirm: string;
-    rol: string;
+    role_name: string;
+    status: string;
   } | null;
 }
 
-const AddUsuarioModal: FC<AddFraseModalProps> = ({
+const AddUsuarioModal: FC<AddUsuarioModalProps> = ({
   isOpen,
   onClose,
+  onSuccess,
   usuario,
 }) => {
-  const [nombre, setNombre] = useState("");
-  const [documento, setDocumento] = useState("");
+  const { token } = useAuth();
+  const [fullname, setFullname] = useState("");
+  const [doc_number, setDoc_number] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [rol, setRol] = useState("");
-
+  const [role_name, setRole_name] = useState("");
+  const [status, setStatus] = useState("ACTIVE");
   const [showPassword, setShowPassword] = useState(false);
+
+  const { create, loading: creating } = useCreate("/v1/users", token);
+  const { update: updateUserData, loading: updatingData } = useUpdate(`/v1/users/${usuario?.id || ""}`, token);
+  const { update: updatePassword, loading: updatingPassword } = useUpdate(`/v1/users/${usuario?.id || ""}/password`, token);
 
   useEffect(() => {
     if (usuario) {
-      setNombre(usuario.nombre);
-      setDocumento(usuario.documento);
-      setPassword(usuario.password);
-      setPasswordConfirm(usuario.passwordConfirm);
-      setRol(usuario.rol);
-    } else {
-      setNombre("");
-      setDocumento("");
+      setFullname(usuario.fullname);
+      setDoc_number(usuario.doc_number);
       setPassword("");
-      setPasswordConfirm("");
-      setRol("");
+      setRole_name(usuario.role_name);
+      setStatus(usuario.status);
+    } else {
+      setFullname("");
+      setDoc_number("");
+      setPassword("");
+      setRole_name("");
+      setStatus("ACTIVE");
     }
   }, [usuario]);
 
-  const handleSave = () => {
-    console.log({ nombre, documento, rol });
-    onClose(); // Cierra el modal después de guardar
+  const handleSave = async () => {
+    try {
+      if (usuario) {
+        const userData = { fullname, doc_number, role_name, status };
+        await updateUserData(userData);
+        if (password) {
+          const passwordData = { password };
+          await updatePassword(passwordData);
+        }
+      } else {
+        const newUser = { fullname, doc_number, role_name, password, status };
+        await create(newUser);
+      }
+
+      onSuccess();
+      onClose();
+    } catch (error) {
+      console.error("Error al guardar el usuario:", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -64,7 +89,8 @@ const AddUsuarioModal: FC<AddFraseModalProps> = ({
           >
             ✕
           </button>
- </div>
+        </div>
+        {/* Modal Body */}
         <div className="p-4">
           <form>
             <div className="mb-4">
@@ -77,8 +103,8 @@ const AddUsuarioModal: FC<AddFraseModalProps> = ({
               <input
                 id="nombre"
                 type="text"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
                 placeholder="Escribe el nombre..."
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               />
@@ -94,8 +120,8 @@ const AddUsuarioModal: FC<AddFraseModalProps> = ({
               <input
                 id="documento"
                 type="text"
-                value={documento}
-                onChange={(e) => setDocumento(e.target.value)}
+                value={doc_number}
+                onChange={(e) => setDoc_number(e.target.value)}
                 placeholder="Escribe el documento..."
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               />
@@ -110,12 +136,13 @@ const AddUsuarioModal: FC<AddFraseModalProps> = ({
               </label>
               <select
                 id="rol"
-                value={rol}
-                onChange={(e) => setRol(e.target.value)}
+                value={role_name}
+                onChange={(e) => setRole_name(e.target.value)}
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               >
-                <option value="Boleteria">Boleteria</option>
-                <option value="Admin">Admin</option>
+                <option value="">Seleccione el rol</option>
+                <option value="BOLETERIA">Boleteria</option>
+                <option value="ADMIN">Admin</option>
               </select>
             </div>
 
@@ -133,45 +160,37 @@ const AddUsuarioModal: FC<AddFraseModalProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Escribe la contraseña..."
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
-                required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-[70%] transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
               >
-                {showPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
-                )}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="passwordConfirm"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Confirmar Contraseña
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="passwordConfirm"
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-                placeholder="Escribe la contraseña..."
+              <label className="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              />
+              >
+                <option value="ACTIVE">Activo</option>
+                <option value="INACTIVE">Inactivo</option>
+              </select>
             </div>
 
             <button
               type="button"
               onClick={handleSave}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+              disabled={creating || updatingData || updatingPassword}
             >
-              Guardar
+              {creating || updatingData || updatingPassword
+                ? "Guardando..."
+                : "Guardar"}
             </button>
           </form>
         </div>

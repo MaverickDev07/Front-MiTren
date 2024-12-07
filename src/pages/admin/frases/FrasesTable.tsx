@@ -6,7 +6,7 @@ import Paginator from "@/components/Paginator";
 const FrasesTable = ({
   onEdit,
   reloadTable,
-  searchQuery, // Nuevo prop para el término de búsqueda
+  searchQuery,
 }: {
   onEdit: (frase: any) => void;
   reloadTable: boolean;
