@@ -19,7 +19,7 @@ const AdminPage = () => {
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 w-full h-full">
         <div className="container mx-auto p-4 lg:p-8 min-h-full">
           <Suspense fallback={
             <div className="w-full h-full flex items-center justify-center">

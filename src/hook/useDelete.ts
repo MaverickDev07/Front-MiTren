@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { deleteData } from '@/services/apiService';
+import { useState } from "react";
+import { deleteData } from "@/services/apiService";
 
-const useDelete = <T>(endpoint: string) => {
+const useDelete = <T>(endpoint: string, token?: string) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -9,10 +9,10 @@ const useDelete = <T>(endpoint: string) => {
   const remove = async () => {
     try {
       setLoading(true);
-      const result = await deleteData(endpoint);
+      const result = await deleteData(endpoint, token);
       setData(result);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }

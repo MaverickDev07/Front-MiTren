@@ -2,11 +2,13 @@ import { useState } from "react";
 import Header from "../dashboard/Header.tsx";
 import FrasesTable from "./FrasesTable.tsx";
 import AddFraseModal from "./AddFraseModal.tsx";
-import { Search } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
 
 const Frases = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedFrase, setSelectedFrase] = useState(null);
+  const [reloadTable, setReloadTable] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openModal = (frase = null) => {
     setSelectedFrase(frase);
@@ -16,6 +18,14 @@ const Frases = () => {
   const closeModal = () => {
     setModalOpen(false);
     setSelectedFrase(null);
+  };
+
+  const handleSuccess = () => {
+    setReloadTable(!reloadTable);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   return (
@@ -31,22 +41,20 @@ const Frases = () => {
             >
               Nueva frase
             </button>
-            <div className="flex items-center space-x-2 bg-white rounded-lg px-4 py-2 mt-4">
-              <Search className="text-gray-500 ml-2" />
-              <input
-                type="text"
-                placeholder="Buscar"
-                className="w-full p-3 text-black px-4 py-2 border rounded text-sm outline-none"
-              />
-            </div>
+            <SearchBar onSearch={handleSearch} />
           </div>
         </div>
-        <FrasesTable onEdit={openModal} />
+        <FrasesTable
+          onEdit={openModal}
+          reloadTable={reloadTable}
+          searchQuery={searchQuery} 
+        />
       </div>
 
       <AddFraseModal
         isOpen={isModalOpen}
         onClose={closeModal}
+        onSuccess={handleSuccess}
         frase={selectedFrase}
       />
     </div>
@@ -54,4 +62,3 @@ const Frases = () => {
 };
 
 export default Frases;
-

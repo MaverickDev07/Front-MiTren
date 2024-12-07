@@ -16,7 +16,6 @@ const ProtectedRoute = ({
 }) => {
   // const token = sessionStorage.getItem("token");
   const {token: storetoken} = useAuth();
-  console.log(storetoken)
 
   if (!storetoken) {
     return <Navigate to="/login" />;

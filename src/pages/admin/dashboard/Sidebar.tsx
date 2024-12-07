@@ -41,9 +41,8 @@ const Sidebar = () => {
   ];
 
   const handleLogout = () => {
-    // Borra los datos relacionados con el inicio de sesión
-    localStorage.clear(); // Borra todos los datos del almacenamiento local
-    sessionStorage.clear(); // Borra todos los datos del almacenamiento de sesión
+    localStorage.clear();
+    sessionStorage.clear();
     console.log("Sesión cerrada");
     navigate("/");
   };
@@ -90,15 +89,12 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Botón de menú móvil */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-indigo-900 text-white"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-
-      {/* Overlay para móvil */}
       {isMobileMenuOpen && <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30" />}
 
       {/* Sidebar */}

@@ -1,28 +1,45 @@
 import { FC, useState, useEffect } from "react";
+import useCreate from "@/hook/useCreate";
+import useUpdate from "@/hook/useUpdate";
+import { useAuth } from "@/context/AuthContext";
 
 interface AddFraseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  frase?: { id: number; texto: string; estado: string } | null;
+  onSuccess: () => void;
+  frase?: { id: number; content: string; status: string } | null;
 }
 
-const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, frase }) => {
-  const [texto, setTexto] = useState("");
-  const [estado, setEstado] = useState("activo");
+const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, onSuccess, frase }) => {
+  const { token } = useAuth();
+  const [content, setContent] = useState("");
+  const [status, setStatus] = useState("ACTIVE");
+  const { create, loading: creating } = useCreate("/v1/phrases", token);
+  const { update, loading: updating } = useUpdate(`/v1/phrases/${frase?.id || ""}`, token);
 
   useEffect(() => {
     if (frase) {
-      setTexto(frase.texto);
-      setEstado(frase.estado);
+      setContent(frase.content);
+      setStatus(frase.status);
     } else {
-      setTexto("");
-      setEstado("activo");
+      setContent("");
+      setStatus("ACTIVE");
     }
   }, [frase]);
 
-  const handleSave = () => {
-    console.log({ texto, estado });
-    onClose();
+  const handleSave = async () => {
+    const body = { content, status };
+    try {
+      if (frase) {
+        await update(body);
+      } else {
+        await create(body);
+      }
+      onSuccess();
+      onClose();
+    } catch (error) {
+      console.error("Error al guardar la frase:", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -42,48 +59,36 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, frase }) => {
             ✕
           </button>
         </div>
+        {/* Modal Body */}
         <div className="p-4">
           <form>
             <div className="mb-4">
-              <label
-                htmlFor="frase"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Frase
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Frase</label>
               <input
-                id="frase"
                 type="text"
-                value={texto}
-                onChange={(e) => setTexto(e.target.value)}
-                placeholder="Escribe una frase..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="estado"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Estado
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Estado</label>
               <select
-                id="estado"
-                value={estado}
-                onChange={(e) => setEstado(e.target.value)}
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
                 className="w-full border px-4 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300"
               >
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
+                <option value="ACTIVE">Activo</option>
+                <option value="INACTIVE">Inactivo</option>
               </select>
             </div>
-
             <button
               type="button"
               onClick={handleSave}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+              className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full ${creating || updating ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={creating || updating}
             >
-              Guardar
+              {creating || updating ? "Guardando..." : "Guardar"}
             </button>
           </form>
         </div>
@@ -93,3 +98,5 @@ const AddFraseModal: FC<AddFraseModalProps> = ({ isOpen, onClose, frase }) => {
 };
 
 export default AddFraseModal;
+
+

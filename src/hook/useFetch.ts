@@ -7,20 +7,21 @@ const useFetch = <T>(endpoint: string, token?: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchDataWithToken = async () => {
       try {
         setLoading(true);
         const result = await fetchData(endpoint, token);
         setData(result);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (err: any) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    getData();
+    fetchDataWithToken();
   }, [endpoint, token]);
+
   return { data, loading, error };
 };
 
