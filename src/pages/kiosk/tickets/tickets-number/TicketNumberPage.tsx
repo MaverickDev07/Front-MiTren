@@ -146,7 +146,7 @@ const TicketNumberPage = () => {
       <div className="w-full lg:px-20 xl:px-[101px]">
         <NavigatorTop />
       </div>
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto md:px-8 md:pb-8 lg:p-8">
         <MultiColumnLayout columns={columnsTicket} />
       </div>
     </div>

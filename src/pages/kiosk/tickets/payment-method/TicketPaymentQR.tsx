@@ -19,14 +19,12 @@ const TicketPaymentQR = () => {
 
   const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
 
-  // Mapeo de íconos basado en el nombre de los métodos
   const iconMap: { [key: string]: React.ElementType } = {
     "EFECTIVO": CardIcon,
     "TARJETA DÉBITO/CRÉDITO": MoneyIcon,
     "PAGOSQR": QRicon,
   };
 
-  // Calcular el monto total a pagar
   const totalAmount = Object.keys(ticketData.counts).reduce((total, ticketType) => {
     const count = ticketData.counts[ticketType] || 0;
     const price = ticketData.pricesMap[ticketType] || 0;
@@ -34,7 +32,7 @@ const TicketPaymentQR = () => {
   }, 0);
 
   const handlePayment = (method: Method) => {
-    let route = "/kiosk/ticket-payment/paymentQR"; // Ruta predeterminada
+    let route = "/kiosk/ticket-payment/paymentQR";
 
     // Definir la ruta según el nombre del método recibido
     switch (method.method_name) {
@@ -68,7 +66,7 @@ const TicketPaymentQR = () => {
     {
       id: "col1",
       content: (
-        <div className="flex flex-col w-full gap-4 flex-shrink-1 p-6">
+        <div className="flex flex-col w-full gap-2 flex-shrink-1 p-6">
           <h2 className="font-bold text-2xl sm:text-2xl lg:text-4xl text-white uppercase px-2">METODOS DE PAGO</h2>
           {loading && <p>Cargando métodos de pago...</p>}
           {error && <p>Error al cargar métodos de pago.</p>}
@@ -129,7 +127,7 @@ const TicketPaymentQR = () => {
       <div className="w-full lg:px-20 xl:px-[101px]">
         <NavigatorTop title="Comprar Ticket - Pagar"/>
       </div>
-      <div className="container mx-auto p-8">
+      <div className="container mx-auto md:px-8 md:pb-8 lg:p-8">
         <MultiColumnLayout columns={columnsPay} />
       </div>
     </div>

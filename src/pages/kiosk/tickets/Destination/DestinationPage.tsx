@@ -36,7 +36,6 @@ const DestinationPage = () => {
       setSelectedLines([linesData.lines[0]]);
     }
   }, [linesData]);
-console.log(selectedLines)
   // Actualizar rutas cada vez que cambie la última línea seleccionada
   const { data: routesData, loading: routesLoading } = useFetch(
     selectedLines.length > 0 
@@ -155,7 +154,7 @@ console.log(selectedLines)
   return (
     <div className="w-full min-h-screen relative flex flex-col justify-start items-center">
       <div className="w-full lg:px-20 xl:px-[101px]">
-        <div className="container mx-auto px-6" style={{height: "115px"}}>
+        <div className="container mx-auto px-6 md:h-[80px] lg:h-[115px]">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
             <div className="flex items-center justify-start rounded-lg col-span-1">
               <ButtonLink to="/kiosk/menu" height="h-[60px] sm:h-[40px] md:h-[40px] lg:h-[60px] xl:h[60px] 4xl:h-[60px]">
