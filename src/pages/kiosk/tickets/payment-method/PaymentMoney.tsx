@@ -15,6 +15,9 @@ import Bs200 from "@/assets/brand/200bs.png";
 import MultiColumnLayout from '@/components/MultiColumnLayout';
 import { useEffect, useState } from 'react';
 
+const apiUrl = import.meta.env.VITE_API_EFECTIVO;
+const apiPort = import.meta.env.VITE_EFECTIVO;
+
 const PaymentMoney = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,7 +35,7 @@ const PaymentMoney = () => {
   const handleReceiveAmount = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/efectivo/monto", {
+      const response = await fetch(`${apiUrl}:${apiPort}/api/efectivo/monto`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +60,7 @@ const PaymentMoney = () => {
   // Función para consultar el estado del pago
   const handleCheckStatus = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/efectivo/estado", {
+      const response = await fetch(`${apiUrl}:${apiPort}/api/efectivo/estado`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
