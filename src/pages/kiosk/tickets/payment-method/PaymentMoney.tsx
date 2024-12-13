@@ -54,37 +54,6 @@ const PaymentMoney = () => {
     }
   };
 
-  // Función para actualizar el monto pagado conforme el usuario inserta dinero
-  const handlePayment = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("http://localhost:3000/api/efectivo/pagar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount: monto }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al realizar el pago.");
-      }
-
-      const data = await response.json();
-      if (data.message === "Pago completado") {
-        setPaymentStatus("completado");
-        setTotalPaid(data.totalPaid);
-      } else {
-        setPaymentStatus("en proceso");
-        setTotalPaid(data.totalPaid);
-      }
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Función para consultar el estado del pago
   const handleCheckStatus = async () => {
     try {
@@ -111,22 +80,6 @@ const PaymentMoney = () => {
   useEffect(() => {
     handleReceiveAmount();
   }, [monto]);
-
-  // Usar setInterval para actualizar el pago constantemente (cada 5 segundos)
-  useEffect(() => {
-    const paymentInterval = setInterval(() => {
-      if (paymentStatus !== "completado") {
-        handlePayment(); // Llamar a la API para actualizar el monto pagado
-      }
-    }, 5000); // Cada 5 segundos, actualiza el pago
-
-    // Limpiar el intervalo cuando se complete el pago
-    if (paymentStatus === "completado") {
-      clearInterval(paymentInterval);
-    }
-
-    return () => clearInterval(paymentInterval); // Limpiar al desmontar el componente
-  }, [paymentStatus, totalPaid]);
 
   // Usar setInterval para consultar el estado del pago (cada 5 segundos)
   useEffect(() => {
@@ -195,9 +148,9 @@ const PaymentMoney = () => {
       <div className="relative w-full md:px-20 xl:px-[101px] flex flex-col items-center">
           <h2 className="font-bold text-3xl md:text-sm lg:text-4xl text-white mb-4">"1ero ingresen billetes (del más alto al más bajo) y al final las monedas" Saldo a cancelar: {monto} Bs </h2>
           <h2 className="font-bold text-3xl md:text-sm lg:text-4xl text-white uppercase">
-            {monto <= 5.1
+            {monto >= 5.1
               ? "Ingrese el billete de mayor valor disponible primero: 10 - 20 - 50 - 100 - 200"
-              : "Ingrese las monedas de mayor del más alto al más bajo valor"
+              : "Ingrese las monedas del mas alto valor al más bajo valor ejemplo monedas de 5Bs primero"
             }
           </h2>
             <MultiColumnLayout columns={filteredColumns} flex='justify-items-center'/>
