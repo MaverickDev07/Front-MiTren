@@ -6,6 +6,7 @@ import MultiColumnLayout from "@/components/MultiColumnLayout";
 import ButtonBase from "@/components/ButtonBase";
 import Ticket from "../tickets-number/TicketResume";
 
+const metodos = import.meta.env.VITE_Metodos
 interface Method {
   id: string;
   method_name: string;
@@ -17,7 +18,7 @@ const TicketPaymentQR = () => {
 
   const ticketData = location.state || JSON.parse(localStorage.getItem("ticketData"));
 
-  const { data, loading, error } = useFetch("/v1/ticket_flow/step-4/methods");
+  const { data, loading, error } = useFetch(`${metodos}`);
 
   const iconMap: { [key: string]: React.ElementType } = {
     "EFECTIVO": CardIcon,

@@ -7,7 +7,10 @@ import MapStation from './Map';
 import { useNavigate } from 'react-router-dom';
 import ButtonBase from '@/components/ButtonBase';
 
-// Definición de la interfaz Line y Destination
+const linea = import.meta.env.VITE_DESTINO_LINEAS
+const kiosko = import.meta.env.VITE_DESTINO_KIOSKO
+const rutas = import.meta.env.VITE_DESTINO_RUTAS
+
 interface Line {
   id: string;
   line_name: string;
@@ -27,19 +30,17 @@ const DestinationPage = () => {
   const [itinerary, setItinerary] = useState<Destination[]>([]);
   const limit = 5;
 
-  const { data: linesData, loading: linesLoading, error: linesError } = useFetch("/v1/ticket_flow/step-1/lines");
-  const { data: kiosksData, loading: kiosksLoading, error: kiosksError } = useFetch("/v1/ticket_flow/step-2/env-id/station");
+  const { data: linesData, loading: linesLoading, error: linesError } = useFetch(`${linea}`);
+  const { data: kiosksData, loading: kiosksLoading, error: kiosksError } = useFetch(`${kiosko}`);
   
   useEffect(() => {
-    // Seleccionar automáticamente la primera línea y añadirla al array de líneas seleccionadas
     if (linesData?.lines && linesData.lines.length > 0) {
       setSelectedLines([linesData.lines[0]]);
     }
   }, [linesData]);
-  // Actualizar rutas cada vez que cambie la última línea seleccionada
   const { data: routesData, loading: routesLoading } = useFetch(
     selectedLines.length > 0 
-      ? `/v1/ticket_flow/step-2/line/${selectedLines[selectedLines.length - 1].id}?limit=${limit}&page=${currentPage}`
+      ? `${rutas}/${selectedLines[selectedLines.length - 1].id}?limit=${limit}&page=${currentPage}`
       : null
   );
   
@@ -98,7 +99,6 @@ const DestinationPage = () => {
     },
   ];
 
-  // Columnas para los destinos
   const columnsdestiny = [
     {
       id: 'col1',

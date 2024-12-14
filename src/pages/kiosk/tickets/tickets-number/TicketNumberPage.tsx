@@ -9,6 +9,8 @@ import useFetch from '@/hook/useFetch';
 import ButtonBase from '@/components/ButtonBase';
 import Ticket from './TicketResume';
 
+const transbordo = import.meta.env.VITE_TRANSBORDO
+
 const TicketNumberPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ const TicketNumberPage = () => {
   const startStationId = lastDestination?.station_id_start;
   // const endStationId = lastDestination?.station_id_end; 
   const apiEndpoint = startStationId // && endStationId 
-  ? `/v1/ticket_flow/step-3/${startStationId}/67196ae491a3da2f4fe40ab1` 
+  ? `${transbordo}${startStationId}/67196ae491a3da2f4fe40ab1` 
   : null;
   console.log(itinerary)
   const { data: fetchedPriceData} = useFetch(apiEndpoint);

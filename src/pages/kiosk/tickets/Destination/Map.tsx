@@ -24,27 +24,3 @@ const MapStation: React.FC<MapStationProps> = ({ latitude, longitude }) => {
 };
 
 export default MapStation;
-
-
-// Los que se pueden consultar
-//   Precios misma línea roja
-//     "start_station": {
-//         "station_id": "66f16f4772a5b99531fcce4e",
-//         "station_name": "ESTACION ANTIGUA COCHABAMBA"
-//     },
-//     "end_station": {
-//         "station_id": "67196ae491a3da2f4fe40ab1",
-//         "station_name": "KIÑILOMA"
-//     }
-// Precios con trasbordo
-//     "start_station": {
-//         "station_id": "66f1772472a5b99531fccea2",
-//         "station_name": "ESTACIÓN MUNICIPAL AGRONOMÍA"
-//     },
-//     "end_station": {
-//         "station_id": "67196c7491a3da2f4fe40ada",
-//         "station_name": "ESTACIÓN MUNICIPAL COLCAPIRHUA"
-//     }
-// crear hoks para un CRUD 
-// Realziar diseños de las demas pantallas
-// crear el crud de lineas

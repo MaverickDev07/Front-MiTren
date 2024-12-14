@@ -4,6 +4,9 @@ import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
 import useCreate from "@/hook/useCreate";
 
+const QR = import.meta.env.VITE_QR;
+const estado = import.meta.env.VITE_QR_ESTADO
+
 const PaymentQR = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -11,10 +14,10 @@ const PaymentQR = () => {
   const [qrGenerated, setQrGenerated] = useState(false);
 
   // `useCreate` para generar el QR
-  const { data, loading, error, create: generateQR } = useCreate<{ Codigo: number; Data: { qr: string; movimiento_id: string }; Mensaje: string }>('/v1/qr/generate');
+  const { data, loading, error, create: generateQR } = useCreate<{ Codigo: number; Data: { qr: string; movimiento_id: string }; Mensaje: string }>(`${QR}`);
   
   // `useCreate` para verificar el estado del pago
-  const { data: statusData, error: statusError, create: verifyPayment } = useCreate<{ Codigo: number; Data: { estado: string }; Mensaje: string }>('/v1/ticket_flow/step-4/pqr/verify');
+  const { data: statusData, error: statusError, create: verifyPayment } = useCreate<{ Codigo: number; Data: { estado: string }; Mensaje: string }>(`${estado}`);
 
   // Generar el QR al montar el componente
   useEffect(() => {

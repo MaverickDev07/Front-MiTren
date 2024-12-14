@@ -17,6 +17,8 @@ import { useEffect, useState } from 'react';
 
 const apiUrl = import.meta.env.VITE_API_EFECTIVO;
 const apiPort = import.meta.env.VITE_EFECTIVO;
+const money = import.meta.env.VITE_MONTO;
+const estado = import.meta.env.VITE_ESTADO
 
 const PaymentMoney = () => {
   const location = useLocation();
@@ -35,7 +37,7 @@ const PaymentMoney = () => {
   const handleReceiveAmount = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${apiUrl}:${apiPort}/api/efectivo/monto`, {
+      const response = await fetch(`${apiUrl}:${apiPort}${money}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +62,7 @@ const PaymentMoney = () => {
   // Función para consultar el estado del pago
   const handleCheckStatus = async () => {
     try {
-      const response = await fetch(`${apiUrl}:${apiPort}/api/efectivo/estado`, {
+      const response = await fetch(`${apiUrl}:${apiPort}${estado}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
