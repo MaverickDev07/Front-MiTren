@@ -36,7 +36,7 @@ const PaymentQR = () => {
     // Construcción del body
     const body = {
       payment_method: {
-        method_name: payQr.method, // Viene de useLocation
+        method_name: payQr.method,
         method_id: movimientoId, // ID generado tras generar el QR
       },
       prices: Object.entries(ticketCounts).map(([customer_type, qty]) => ({
