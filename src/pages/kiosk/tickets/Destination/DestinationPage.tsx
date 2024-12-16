@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import MapStation from './Map';
 import { useNavigate } from 'react-router-dom';
 import ButtonBase from '@/components/ButtonBase';
+import { MapPinCheckInside } from 'lucide-react';
 
 const linea = import.meta.env.VITE_DESTINO_LINEAS
 const kiosko = import.meta.env.VITE_DESTINO_KIOSKO
@@ -43,7 +44,7 @@ const DestinationPage = () => {
       ? `${rutas}/${selectedLines[selectedLines.length - 1].id}?limit=${limit}&page=${currentPage}`
       : null
   );
-  
+
   const kiosksDat = kiosksData?.kiosk?.station;
 
   if (linesLoading || kiosksLoading || routesLoading) return <div className="text-white text-center">Cargando líneas...</div>;
@@ -144,8 +145,18 @@ const DestinationPage = () => {
     {
       id: 'col2',
       content: (
-        <div className="w-full h-full flex items-center flex-col">
-          {kiosksDat && <MapStation latitude={kiosksDat?.location.latitude} longitude={kiosksDat?.location.longitude} />}
+        <div className="w-full h-full justify-items-center">
+          {kiosksDat && (
+            <div className=''>
+              <MapStation latitude={kiosksDat?.location.latitude} longitude={kiosksDat?.location.longitude}/>
+              <div className='justify-items-center'>
+               <p><MapPinCheckInside className="text-white mt-4" size={35}/></p>
+               <p className='text-white md:text-lg lg:text-4xl'>Ubicacion Actual</p>
+               <label className='text-white md:text-lg lg:text-4xl'>{kiosksDat?.station_name}</label>
+              </div>
+            </div>    
+          )}
+          
         </div>
       ),
     },

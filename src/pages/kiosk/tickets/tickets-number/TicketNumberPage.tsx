@@ -28,19 +28,17 @@ const TicketNumberPage = () => {
   const [itinerary, setItinerary] = useState(location.state?.itinerary || JSON.parse(localStorage.getItem("itinerary")) || []);
   const lastDestination = itinerary?.length > 0 ? itinerary[itinerary.length - 1] : null;
   const startStationId = lastDestination?.station_id_start;
-  // const endStationId = lastDestination?.station_id_end; 
-  const apiEndpoint = startStationId // && endStationId 
-  ? `${transbordo}${startStationId}/67196ae491a3da2f4fe40ab1` 
+  const endStationId = lastDestination?.station_id_end; 
+  const apiEndpoint = startStationId && endStationId 
+  ? `${transbordo}${startStationId}/${endStationId}` 
   : null;
-  console.log(itinerary)
   const { data: fetchedPriceData} = useFetch(apiEndpoint);
   const prices = fetchedPriceData?.prices || [];
-
   const pricesMap = prices.reduce((map:any, price:any) => {
     map[price.customer_type] = price.base_price;
     return map;
   }, {});
-
+  console.log(fetchedPriceData)
   useEffect(() => {
     if (location.state) {
       // Guardar en localStorage si location.state tiene datos
@@ -99,7 +97,8 @@ const TicketNumberPage = () => {
             />
           ))}
           <ButtonLink 
-            to='/kiosk/destination' 
+            to='/kiosk/destination'
+            onClick={()=>{localStorage.clear();}}
             className="bg-white text-black flex items-center justify-between px-4 bg-red"
             height="h-[60px] sm:h-[50px] md:h-[50px] lg:h-[60px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-yellow-500"

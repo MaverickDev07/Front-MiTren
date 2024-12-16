@@ -52,6 +52,7 @@ const TicketPaymentQR = () => {
 
     navigate(route, {
       state: {
+        method:method.method_name ,
         monto: totalAmount.toFixed(2),
         start_station: ticketData.origin,
         end_station: ticketData.destination,
@@ -62,7 +63,7 @@ const TicketPaymentQR = () => {
   const handleReturn = () => {
     navigate(`/kiosk/destination/tickets/${ticketData.id_origin}`, { state: ticketData });
   };
-
+  console.log(data)
   const columnsPay = [
     {
       id: "col1",

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import NavigatorTop from "@/components/NavigatorTop";
 import ButtonLink from '@/components/ButtonLink';
 import useCreate from "@/hook/useCreate";
+import { createData } from '@/services/apiService';
 
 const QR = import.meta.env.VITE_QR;
 const estado = import.meta.env.VITE_QR_ESTADO
@@ -13,13 +14,63 @@ const PaymentQR = () => {
   const payQr = location.state || {};
   const [qrGenerated, setQrGenerated] = useState(false);
 
-  // `useCreate` para generar el QR
-  const { data, loading, error, create: generateQR } = useCreate<{ Codigo: number; Data: { qr: string; movimiento_id: string }; Mensaje: string }>(`${QR}`);
-  
-  // `useCreate` para verificar el estado del pago
-  const { data: statusData, error: statusError, create: verifyPayment } = useCreate<{ Codigo: number; Data: { estado: string }; Mensaje: string }>(`${estado}`);
+  const { data, loading, error, create: generateQR } = useCreate<{
+    Codigo: number;
+    Data: { qr: string; movimiento_id: string };
+    Mensaje: string;
+  }>(`${QR}`);
 
-  // Generar el QR al montar el componente
+  const { data: statusData, error: statusError, create: verifyPayment } = useCreate<{
+    Codigo: number;
+    Data: { estado: string };
+    Mensaje: string;
+  }>(`${estado}`);
+
+  const movimientoId = data?.Data.movimiento_id;
+
+  const createTicket = async () => {
+    // Obtención de datos del localStorage
+    const localStorageData = JSON.parse(localStorage.getItem("ticketData"));
+    const ticketCounts = localStorageData.counts;
+
+    // Construcción del body
+    const body = {
+      payment_method: {
+        method_name: payQr.method, // Viene de useLocation
+        method_id: movimientoId, // ID generado tras generar el QR
+      },
+      prices: Object.entries(ticketCounts).map(([customer_type, qty]) => ({
+        qty,
+        customer_type,
+        base_price: localStorageData.pricesMap[customer_type] || 0,
+      })),
+      route: {
+        start_point: {
+          start_station: localStorageData.origin,
+          start_line: localStorageData.line,
+        },
+        end_point: {
+          end_station: localStorageData.destination,
+          end_line: localStorageData.transfer_end_line || localStorageData.line,
+        },
+        transfer_point: {
+          is_transfer: localStorageData.transfer,
+          transfer_station: localStorageData.transfer_station || "",
+        },
+      },
+    };
+
+    const endpoint = "/v1/ticket_flow/step-6/ticket";
+    try {
+      const result = await createData(endpoint, body); // Enviar POST
+      console.log("Ticket creado:", result);
+    } catch (error) {
+      console.log("Datos enviados al backend:", body);
+      console.error("Error al crear el ticket:", error);
+    }
+  };
+  
+  // Generar QR en el primer render
   useEffect(() => {
     if (!qrGenerated) {
       generateQR({
@@ -31,33 +82,28 @@ const PaymentQR = () => {
     }
   }, [generateQR, payQr, qrGenerated]);
 
-  // Actualizar ID de movimiento cuando el QR se genera correctamente
-  const movimientoId = data?.Data.movimiento_id;
-  // Función para limpiar
-  const handleClearLocalStorage = () => {
-    localStorage.clear();
-  };
 
-  // Función para verificar el estado de pago
+  // Verificar el estado del pago
   const checkPaymentStatus = useCallback(() => {
     if (movimientoId) {
       verifyPayment({ movimiento_id: String(movimientoId) });
     }
   }, [movimientoId, verifyPayment]);
 
-  // Redirige si el estado es "Completado"
+  // Manejar el resultado del estado del pago
   useEffect(() => {
-    if (statusData && statusData.Codigo === 0 && statusData.Data.estado === 'Completado') {
+    if (statusData?.Codigo === 0 && statusData.Data.estado === "Completado") {
+      // Crear el ticket si el pago está completado
+      createTicket();
       localStorage.clear();
-      navigate('/kiosk/verificationQR');
+      navigate("/kiosk/verificationQR");
     }
   }, [statusData, navigate]);
-
-  // Configuración del intervalo para verificar el estado de pago
-  useEffect(() => {
-    const intervalId = setInterval(checkPaymentStatus, 10000); // 10 segundos
-    return () => clearInterval(intervalId);
-  }, [checkPaymentStatus]);
+    // Configuración del intervalo para verificar el estado del pago
+    useEffect(() => {
+      const intervalId = setInterval(checkPaymentStatus, 10000); // Cada 10 segundos
+      return () => clearInterval(intervalId);
+    }, [checkPaymentStatus]);
 
   return (
     <div className="w-full min-h-screen bg-mitren-primary bg-doodle bg-cover ">
@@ -83,7 +129,7 @@ const PaymentQR = () => {
             height="h-[60px] md:h-[60px] md:w-[300px] lg:h-[100px] lg:w-[560px] xl:h[60px] 4xl:h-[90px]"
             backgroundColor="bg-red-600"
             borderColor="box-border border-black border-[10px]"
-            onClick={handleClearLocalStorage}
+            onClick={()=>{localStorage.clear()}}
           >
             <div className="flex-1 text-center text-white md:text-2xl lg:text-4xl">Cancelar</div>
           </ButtonLink>

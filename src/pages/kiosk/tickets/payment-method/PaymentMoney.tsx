@@ -25,7 +25,7 @@ const PaymentMoney = () => {
   const navigate = useNavigate();
   const payQr = location.state || {};
   const monto = payQr.monto || 0;
-
+  console.log(payQr)
   const [totalMonedero, setTotalMonedero] = useState<number>(0);
   const [acceptedBills, setAcceptedBills] = useState<number[]>([]);
   const [paymentStatus, setPaymentStatus] = useState<string>("en proceso");
